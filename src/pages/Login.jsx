@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Form, Button, } from 'react-bootstrap';
 
-const Home = () => {
+const Login = () => {
 
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
@@ -65,4 +65,4 @@ const Home = () => {
     );
 }
 
-export default Home;
+export default Login;
