@@ -4,7 +4,7 @@ import { MessageList, Input, SystemMessage, Button } from "react-chat-elements"
 
 const ChatPannel = () => {
     return (
-        <Col md={8} className="d-flex flex-column justify-content-between p-0">
+        <Col md={8} className="h-100 d-flex flex-column justify-content-between p-0">
 
 
             <div clasName="messages" style={{ overflowY: "scroll" }}>
@@ -22,6 +22,7 @@ const ChatPannel = () => {
                             type: 'text',
                             text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
                             date: new Date(),
+                            
                         },
                         {
                             position: 'right',

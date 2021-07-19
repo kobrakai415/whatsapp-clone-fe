@@ -4,7 +4,7 @@ import { ChatList } from "react-chat-elements"
 
 const Chats = () => {
     return (
-        <Col md={4}>
+        <Col md={4} style={{height: "100%"}}>
 
             <ChatList
                 className='chat-list'
@@ -32,9 +32,57 @@ const Chats = () => {
                         subtitle: 'What are you doing?',
                         date: new Date(),
                         unread: 0,
-                    }
-       
-    ]} />
+                    },
+                    {
+                        avatar: 'https://facebook.github.io/react/img/logo.svg',
+                        alt: 'Reactjs',
+                        title: 'Facebook',
+                        subtitle: 'What are you doing?',
+                        date: new Date(),
+                        unread: 0,
+                    },
+                    {
+                        avatar: 'https://facebook.github.io/react/img/logo.svg',
+                        alt: 'Reactjs',
+                        title: 'Facebook',
+                        subtitle: 'What are you doing?',
+                        date: new Date(),
+                        unread: 0,
+                    },
+                    {
+                        avatar: 'https://facebook.github.io/react/img/logo.svg',
+                        alt: 'Reactjs',
+                        title: 'Facebook',
+                        subtitle: 'What are you doing?',
+                        date: new Date(),
+                        unread: 0,
+                    },
+                    {
+                        avatar: 'https://facebook.github.io/react/img/logo.svg',
+                        alt: 'Reactjs',
+                        title: 'Facebook',
+                        subtitle: 'What are you doing?',
+                        date: new Date(),
+                        unread: 0,
+                    },
+                    {
+                        avatar: 'https://facebook.github.io/react/img/logo.svg',
+                        alt: 'Reactjs',
+                        title: 'Facebook',
+                        subtitle: 'What are you doing?',
+                        date: new Date(),
+                        unread: 0,
+                    },
+                    {
+                        avatar: 'https://facebook.github.io/react/img/logo.svg',
+                        alt: 'Reactjs',
+                        title: 'Facebook',
+                        subtitle: 'What are you doing?',
+                        date: new Date(),
+                        unread: 0,
+                    },
+
+                ]} />
 
         </Col>
     );

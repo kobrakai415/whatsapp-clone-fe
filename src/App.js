@@ -1,29 +1,19 @@
-import './App.css';
-import 'bootstrap/dist/css/bootstrap.min.css'
+import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-chat-elements/dist/main.css';
-import { Container, Row } from "react-bootstrap"
-import TopPannel from './components/TopPannel';
-import Chats from "./components/Chats.jsx"
-import ChatPage from "./components/ChatPage.jsx"
+import './App.css';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import Home from './pages/Home';
+import LoggedIn from "./pages/Loggedin"
 
 function App() {
   return (
-    <>
-      <div className="green-banner">
 
-      </div>
-      <Container className="my-3 app-container">
-        <TopPannel>
+    <Router>
+      <Route path="/" exact render={(routerProps) => <Home routerProps={routerProps} />} />
+      <Route path="/user" exact render={(routerProps) => <LoggedIn routerProps={routerProps} />} />
 
-        </TopPannel>
-        <Row>
-          <Chats />
+    </Router>
 
-          <ChatPage />
-
-        </Row>
-      </Container>
-    </>
   );
 }
 
