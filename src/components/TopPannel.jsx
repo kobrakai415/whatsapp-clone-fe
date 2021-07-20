@@ -3,7 +3,7 @@ import { Row, Col } from "react-bootstrap"
 
 const TopPannel = () => {
     return (
-        <Row className="top-pannel">
+        <Row style={{ height: "9vh" }} className="top-pannel">
             <Col md={4} className="top-pannel-left" style={{ borderRight: "1px, solid, black" }}>
                 <div className="d-flex justify-content-between">
                     <div className="d-flex align-items-center justify-content-center" style={{ paddingLeft: "13px", paddingRight: "15px" }}>
