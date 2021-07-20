@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Form, Button, } from 'react-bootstrap';
+import { Link } from "react-router-dom"
 
-const Login = () => {
+const ApiUrl = process.env.REACT_APP_API_URL
+
+const Login = ({routerProps}) => {
 
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
@@ -9,7 +12,23 @@ const Login = () => {
 
     const login = async () => {
         try {
-            const res = await fetch()
+            const details = {
+                email: username,
+                password: password
+            }
+            const res = await fetch(`${ApiUrl}/users/login`, {
+                method: "POST",
+                headers: {
+                    "content-type": "application/json",
+                },
+                body: JSON.stringify(details)
+            })
+
+            if(res.ok) {
+                const json = await res.json()
+                localStorage.setItem("accessToken", json.accessToken)
+                routerProps.history.push("/user")
+            }
 
         } catch (error) {
             console.log(error)
@@ -22,9 +41,9 @@ const Login = () => {
             style={{ minHeight: "100vh" }}
         >
             <div>
-          
+
                 <Form className='p-5 login-container'>
-                <h3 className="my-3">Login</h3>
+                    <h3 className="my-3">Login</h3>
                     <Form.Group className='mb-3' controlId='username'>
                         <Form.Label>Username</Form.Label>
                         <Form.Control
@@ -45,16 +64,19 @@ const Login = () => {
                         />
                     </Form.Group>
 
-                    <Button className="me-4" variant='primary' disabled={username.length < 0 && password.length < 0 ? true : false} type='button'>
+                    <Button onClick={login} className="me-4" variant='primary' disabled={username.length < 0 && password.length < 0 ? true : false} type='button'>
                         Login
                     </Button>
-                    <Button
+                    <Link to="/signup">
 
-                        className='ml-3'
-                        variant='primary'
-                        type='button'>
-                        SignUp
-                    </Button>
+                        <Button
+
+                            className='ml-3'
+                            variant='primary'
+                            type='button'>
+                            SignUp
+                        </Button>
+                    </Link>
                     <Button className="ms-4" href="http://localhost:3000/authors/googleLogin" variant='primary' type='button'>
                         Login with google
                     </Button>

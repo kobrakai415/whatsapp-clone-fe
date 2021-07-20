@@ -3,11 +3,14 @@ import { Col } from "react-bootstrap"
 import { MessageList, Input, SystemMessage, Button } from "react-chat-elements"
 
 const ChatPannel = () => {
+
+
+
+    
     return (
-        <Col md={8} className="h-100 d-flex flex-column justify-content-between p-0">
+        <Col md={8} style={{maxHeight: "100%"}} className=" messages d-flex flex-column justify-content-between p-0">
 
-
-            <div clasName="messages" style={{ overflowY: "scroll" }}>
+            <div clasName="messages" style={{ maxHeight: "100%", overflowY: "scroll" }}>
                 <SystemMessage text={"The start of your legendary conversation with Max"}>
 
                 </SystemMessage>
@@ -38,6 +41,90 @@ const ChatPannel = () => {
                         },
                         {
                             position: 'left',
+                            type: 'text',
+                            text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
+                            date: new Date(),
+                        },
+                        {
+                            position: 'right',
+                            type: 'text',
+                            text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
+                            date: new Date(),
+                        },
+                        {
+                            position: 'right',
+                            type: 'text',
+                            text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
+                            date: new Date(),
+                        },
+                        {
+                            position: 'right',
+                            type: 'text',
+                            text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
+                            date: new Date(),
+                        },
+                        {
+                            position: 'right',
+                            type: 'text',
+                            text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
+                            date: new Date(),
+                        },
+                        {
+                            position: 'right',
+                            type: 'text',
+                            text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
+                            date: new Date(),
+                        },
+                        {
+                            position: 'right',
+                            type: 'text',
+                            text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
+                            date: new Date(),
+                        },
+                        {
+                            position: 'right',
+                            type: 'text',
+                            text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
+                            date: new Date(),
+                        },
+                        {
+                            position: 'right',
+                            type: 'text',
+                            text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
+                            date: new Date(),
+                        },
+                        {
+                            position: 'right',
+                            type: 'text',
+                            text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
+                            date: new Date(),
+                        },
+                        {
+                            position: 'right',
+                            type: 'text',
+                            text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
+                            date: new Date(),
+                        },
+                        {
+                            position: 'right',
+                            type: 'text',
+                            text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
+                            date: new Date(),
+                        },
+                        {
+                            position: 'right',
+                            type: 'text',
+                            text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
+                            date: new Date(),
+                        },
+                        {
+                            position: 'right',
+                            type: 'text',
+                            text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
+                            date: new Date(),
+                        },
+                        {
+                            position: 'right',
                             type: 'text',
                             text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
                             date: new Date(),

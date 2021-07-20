@@ -20,46 +20,27 @@ const Signup = () => {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-    const login = async () => {
-        try {
-            const res = await fetch(`${ApiUrl}/`);
-
-            if (res.ok) {
-                const data = await res.json();
-                setProfile(data);
-                localStorage.setItem("userId", data.id);
-            } else {
-                alert("Wrong credentials, try again!");
-            }
-        } catch (error) {
-            console.log(error);
-        }
-    };
     const signup = async () => {
         try {
             const newUser = {
                 name: name,
                 surname: surname,
-                area: area,
                 email: email,
                 username: signupUsername,
                 password: signupPassword,
             };
-            const res = await fetch(`${ApiUrl}/api/profile`, {
+            const res = await fetch(`${ApiUrl}/users/register`, {
                 method: "POST",
                 headers: {
                     "content-type": "application/json",
                 },
                 body: JSON.stringify(newUser),
             });
-            console.log(res)
             if (res.ok) {
                 const data = await res.json();
 
                 console.log(data);
-            } else {
-                console.log()
-            }
+            } 
         } catch (error) {
             console.log(error);
         }
@@ -74,7 +55,7 @@ const Signup = () => {
         >
 
             <Form className="login-container p-5">
-            <h3 className="my-3">SignUp</h3>
+                <h3 className="my-3">SignUp</h3>
                 <Form.Group className='mb-3' controlId='name'>
                     <Form.Label>Name</Form.Label>
                     <Form.Control
@@ -93,7 +74,7 @@ const Signup = () => {
                         placeholder='Enter surname'
                     />
                 </Form.Group>
-               
+
                 <Form.Group className='mb-3' controlId='email'>
                     <Form.Label>Email address</Form.Label>
                     <Form.Control
@@ -125,9 +106,9 @@ const Signup = () => {
                     />
                 </Form.Group>
 
-                <Button className="me-4" variant='primary' type='button'>
-                        SignUp
-                    </Button>
+                <Button onClick={signup} className="me-4" variant='primary' type='button'>
+                    SignUp
+                </Button>
             </Form>
         </Container>
     );
