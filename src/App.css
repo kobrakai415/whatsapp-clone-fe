@@ -1,20 +1,28 @@
-
 .app-container {
   border: 1px solid rgb(221, 220, 220);
   padding: 10px, 0, 10px, 0;
 }
-.green-banner{
+.green-banner {
   background: #009688;
-  height: 50px;
+  height: 150px;
   width: 100vw;
   z-index: -1000;
 }
 .top-pannel {
   background-color: #f0f0f0;
 }
-.top-pannel-left{
+.top-pannel-left {
   border-right: 1px solid rgb(223, 223, 223);
 }
+
+.rce-mlist div[class^="rce-container-mbox"] {
+  margin: 5px 0px 5px 0px;
+}
+
+.messages {
+  background: url(http://i.imgur.com/TnNwdvV.png);
+}
+
 .input-parent {
   background-color: #f0f0f0;
 }
@@ -24,4 +32,29 @@
 .message-input textarea {
   border: 2px solid rgb(255, 255, 255);
   border-radius: 30px;
+}
+
+.login-container {
+  border: 1px solid rgb(221, 220, 220);
+}
+
+#search-bar {
+  border-radius: 500px;
+  height: 40px;
+  max-width: 80;
+  text-overflow: ellipsis;
+  width: 100%;
+  padding: 6px 48px;
+}
+
+#search-bar-parent {
+  position: relative;
+  margin-top: 10px;
+ /* background-color: #F6F6F6; */
+}
+.search-bar-glass {
+  position: absolute;
+  left: 17px;
+  top: 8px;
+  color: black;
 }
