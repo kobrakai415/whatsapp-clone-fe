@@ -1,10 +1,51 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import { Col } from "react-bootstrap"
 import { ChatList } from "react-chat-elements"
+import { io } from "socket.io-client";
+
+const ApiUrl = process.env.REACT_APP_API_URL
+const socket = io(ApiUrl, { transports: ["websocket"] });
 
 const Chats = () => {
-
     const [query, setQuery] = useState("")
+    const [roomList, setRoomList] = useState("")
+
+    const token = localStorage.getItem("accessToken")
+    useEffect(() => {
+        console.log("I'm setting the event listeners!");
+
+        socket.on("connect", () => {
+            socket.emit("validation", { token, username: "mas" });
+            // with on we're listening for an event
+            socket.on("validationFailed", console.log("validation Failed"))
+            socket.on("rooms", async ({ rooms }) => {
+                console.log('rooms:', rooms)
+                setRoomList(rooms)
+            })
+            console.log(socket.id);
+        });
+
+        // socket.on("loggedin", () => {
+        //     console.log("Now you're successfully logged in!");
+        //     setIsLoggedIn(true);
+        //     checkOnlineUsers();
+        // });
+
+        // socket.on("newConnection", () => {
+        //     console.log("newConnection event, someone got in!");
+        //     checkOnlineUsers();
+        // });
+
+        // socket.on("message", (message: Message) => {
+        //     setChatHistory((oldChatHistory) => [...oldChatHistory, message]);
+        // });
+
+        return () => {
+            console.log("Disconnected");
+            socket.disconnect();
+        };
+    }, []);
+
     return (
         <Col md={4} style={{ height: "100%" }}>
 
