@@ -4,12 +4,9 @@ import { MessageList, Input, SystemMessage, Button } from "react-chat-elements"
 
 const ChatPannel = () => {
     return (
-        <Col md={8} style={{maxHeight: "100%"}} className=" messages d-flex flex-column justify-content-between p-0">
+        <>
 
-            <div clasName="messages" style={{ maxHeight: "100%", overflowY: "scroll" }}>
-                <SystemMessage text={"The start of your legendary conversation with Max"}>
-
-                </SystemMessage>
+            <div className="messages d-flex flex-column-reverse">
 
                 <MessageList
                     className='message-list'
@@ -21,7 +18,7 @@ const ChatPannel = () => {
                             type: 'text',
                             text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
                             date: new Date(),
-                            
+
                         },
                         {
                             position: 'right',
@@ -95,45 +92,64 @@ const ChatPannel = () => {
                             text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
                             date: new Date(),
                         },
-                        {
-                            position: 'right',
-                            type: 'text',
-                            text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
-                            date: new Date(),
-                        },
-                        {
-                            position: 'right',
-                            type: 'text',
-                            text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
-                            date: new Date(),
-                        },
-                        {
-                            position: 'right',
-                            type: 'text',
-                            text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
-                            date: new Date(),
-                        },
-                        {
-                            position: 'right',
-                            type: 'text',
-                            text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
-                            date: new Date(),
-                        },
-                        {
-                            position: 'right',
-                            type: 'text',
-                            text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
-                            date: new Date(),
-                        },
-                        {
-                            position: 'right',
-                            type: 'text',
-                            text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
-                            date: new Date(),
-                        },
 
+                        {
+                            position: 'right',
+                            type: 'text',
+                            text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
+                            date: new Date(),
+                        },
+                        {
+                            position: 'right',
+                            type: 'text',
+                            text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
+                            date: new Date(),
+                        },
+                        {
+                            position: 'right',
+                            type: 'text',
+                            text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
+                            date: new Date(),
+                        },
+                        {
+                            position: 'right',
+                            type: 'text',
+                            text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
+                            date: new Date(),
+                        },
+                        {
+                            position: 'right',
+                            type: 'text',
+                            text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
+                            date: new Date(),
+                        },
+                        {
+                            position: 'right',
+                            type: 'text',
+                            text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
+                            date: new Date(),
+                        },
+                        {
+                            position: 'right',
+                            type: 'text',
+                            text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
+                            date: new Date(),
+                        },
+                        {
+                            position: 'right',
+                            type: 'text',
+                            text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
+                            date: new Date(),
+                        },
+                   
                     ]} />
+                
+                {/* <SystemMessage text={"The start of your legendary conversation with Max"}>
+
+                </SystemMessage> */}
             </div>
+
+
             <div className="input-parent d-flex p-3">
 
                 <Input
@@ -142,7 +158,7 @@ const ChatPannel = () => {
                     multiline={false}
                     maxlength={55000}
                     rightButtons={<Button
-                       
+
                         color='white'
                         backgroundColor='black'
                         text='Send' />
@@ -152,7 +168,7 @@ const ChatPannel = () => {
 
 
             </div>
-        </Col>
+        </>
     );
 }
 
