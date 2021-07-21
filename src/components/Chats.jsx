@@ -7,9 +7,6 @@ const ApiUrl = process.env.REACT_APP_API_URL
 const Chats = ({ dataSource, setRoom }) => {
     const [query, setQuery] = useState("")
     const [contacts, setcontacts] = useState(null);
-    const [currentRoom, setCurrentRoom] = useState(null);
-
-
 
     const fetchQuery = async () => {
         try {
