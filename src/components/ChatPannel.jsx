@@ -53,11 +53,103 @@ const ChatPannel = () => {
                             text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
                             date: new Date(),
                         },
+                        {
+                            position: 'right',
+                            type: 'text',
+                            text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
+                            date: new Date(),
+                        },
+                        {
+                            position: 'right',
+                            type: 'text',
+                            text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
+                            date: new Date(),
+                        },
+                        {
+                            position: 'right',
+                            type: 'text',
+                            text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
+                            date: new Date(),
+                        },
+                        {
+                            position: 'right',
+                            type: 'text',
+                            text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
+                            date: new Date(),
+                        },
+                        {
+                            position: 'right',
+                            type: 'text',
+                            text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
+                            date: new Date(),
+                        },
+                        {
+                            position: 'right',
+                            type: 'text',
+                            text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
+                            date: new Date(),
+                        },
+                        {
+                            position: 'right',
+                            type: 'text',
+                            text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
+                            date: new Date(),
+                        },
+
+                        {
+                            position: 'right',
+                            type: 'text',
+                            text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
+                            date: new Date(),
+                        },
+                        {
+                            position: 'right',
+                            type: 'text',
+                            text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
+                            date: new Date(),
+                        },
+                        {
+                            position: 'right',
+                            type: 'text',
+                            text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
+                            date: new Date(),
+                        },
+                        {
+                            position: 'right',
+                            type: 'text',
+                            text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
+                            date: new Date(),
+                        },
+                        {
+                            position: 'right',
+                            type: 'text',
+                            text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
+                            date: new Date(),
+                        },
+                        {
+                            position: 'right',
+                            type: 'text',
+                            text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
+                            date: new Date(),
+                        },
+                        {
+                            position: 'right',
+                            type: 'text',
+                            text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
+                            date: new Date(),
+                        },
+                        {
+                            position: 'right',
+                            type: 'text',
+                            text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
+                            date: new Date(),
+                        },
                    
                     ]} />
-                <SystemMessage text={"The start of your legendary conversation with Max"}>
+                
+                {/* <SystemMessage text={"The start of your legendary conversation with Max"}>
 
-                </SystemMessage>
+                </SystemMessage> */}
             </div>
 
 

@@ -14,7 +14,9 @@ const ApiUrl = process.env.REACT_APP_API_URL
 function Home() {
 
     const [showProfile, setShowProfile] = useState(false)
-
+    const [user, setuser] = useState(null)
+    
+    ;
     const fetchUserData = async () => {
         try {
             const res = await fetch(`${ApiUrl}/users/me`, {
@@ -27,6 +29,7 @@ function Home() {
             if (res.ok) {
                 const json = await res.json()
                 console.log(json)
+                setuser(json)
             }
 
         } catch (error) {
@@ -46,7 +49,7 @@ function Home() {
 
                         {!showProfile &&
                             <>
-                                <TopLeft setShowProfile={setShowProfile} />
+                                <TopLeft avatar={user.avatar} setShowProfile={setShowProfile} />
 
                                 <Chats />
                             </>

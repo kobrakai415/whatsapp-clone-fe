@@ -2,10 +2,25 @@ import React, { useState } from 'react';
 import { Col } from "react-bootstrap"
 import { ChatList, Avatar } from "react-chat-elements"
 
+const ApiUrl = process.env.REACT_APP_API_URL
+
+
 const Chats = () => {
 
     const [query, setQuery] = useState("")
 
+
+    const fetchQuery = async () => {
+        try {
+            if (query.length > 2) {
+
+                const res = await fetch(`${ApiUrl}/users/search/${query}`)
+            }
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     return (
         <>
@@ -21,9 +36,9 @@ const Chats = () => {
 
             {
                 query.length === 0 &&
-                
+
                 <ChatList
-                style={{ maxHeight: "100%", overflowY: "scroll", }}
+                    style={{ maxHeight: "100%", overflowY: "scroll", }}
                     className='chat-list '
                     dataSource={[
                         {
