@@ -19,41 +19,53 @@ function Home() {
     const [showProfile, setShowProfile] = useState(false)
     const [user, setuser] = useState(null)
 
-    const [roomList, setRoomList] = useState("")
+    const [dataSource, setDataSource] = useState("")
+    const [selectedRoom, setSelectedRoom] = useState("")
+
+    const [chatRoom, setChatRoom] = useState("")
+    const [chatHis, setchatHis] = useState(null)
 
     const token = localStorage.getItem("accessToken")
     const username = localStorage.getItem("username")
 
-    useEffect(() => {
-        console.log("I'm setting the event listeners!");
+    // const startChat = () => {
+    // socket.emit("startChat", {userId: } )
+    //
 
+    const setRoom = (room) => {
+        console.log('room:', room)
+        setSelectedRoom(room)
+        socket.emit("chatHistoryOfSelectedRoom", (selectedRoom))
+
+    }
+
+    useEffect(() => {
         socket.on("connect", () => {
-            // socket.emit("validation", { token, username });
-            // socket.on("validationFailed", console.log("validation Failed"))
-            socket.on("rooms", async ({ rooms }) => {
-                console.log('rooms:', rooms)
-                setRoomList(rooms)
-                console.log('roomList:', roomList)
-            })
             console.log(socket.id);
         });
 
-        // socket.on("loggedin", () => {
-        //     console.log("Now you're successfully logged in!");
-        //     setIsLoggedIn(true);
-        //     checkOnlineUsers();
-        // });
+        socket.on("roomData", (roomData) => {
+            console.log('roomData:', roomData)
+            const data = roomData.map((item) => {
+                return { ...item, onClick: setRoom }
+            })
 
-        // socket.on("newConnection", () => {
-        //     console.log("newConnection event, someone got in!");
-        //     ch
+            setDataSource(data)
+
+        })
+
+        socket.emit("chatHistoryOfSelectedRoom", (selectedRoom))
+
+        socket.on("chatHistory", ({ chatHistory, room }) => {
+            setchatHis(chatHistory)
+            setChatRoom(chatHistory)
+        })
+
         return () => {
             console.log("Disconnected");
             socket.disconnect();
         };
     }, []);
-
-
 
 
     const fetchUserData = async () => {
@@ -67,7 +79,7 @@ function Home() {
 
             if (res.ok) {
                 const json = await res.json()
-                console.log(json)
+                // console.log(json)
                 setuser(json)
             }
 
@@ -90,7 +102,7 @@ function Home() {
                             <>
                                 <TopLeft avatar={user.avatar} setShowProfile={setShowProfile} />
 
-                                <Chats />
+                                <Chats setRoom={setRoom} dataSource={dataSource} />
                             </>
                         }
 
@@ -102,11 +114,10 @@ function Home() {
 
                         <TopRight />
 
-                        <ChatPannel />
+                        <ChatPannel chatHis={chatHis} selectedRoom={selectedRoom} />
 
                     </Col>
                 </Row>
-
 
             </Container >
 
