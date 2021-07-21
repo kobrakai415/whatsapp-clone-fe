@@ -27,6 +27,7 @@ const Login = ({routerProps}) => {
             if(res.ok) {
                 const json = await res.json()
                 localStorage.setItem("accessToken", json.accessToken)
+                localStorage.setItem("username", json.username)
                 routerProps.history.push("/user")
             }
 

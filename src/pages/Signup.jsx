@@ -4,9 +4,6 @@ import { Container, Form, Button } from "react-bootstrap"
 const ApiUrl = process.env.REACT_APP_API_URL
 
 const Signup = () => {
-
-
-
     const [name, setName] = useState("");
     const [surname, setSurname] = useState("");
     const [area, setArea] = useState("");

@@ -3,10 +3,6 @@ import { Col } from "react-bootstrap"
 import { MessageList, Input, SystemMessage, Button } from "react-chat-elements"
 
 const ChatPannel = () => {
-
-
-
-    
     return (
         <Col md={8} style={{maxHeight: "100%"}} className=" messages d-flex flex-column justify-content-between p-0">
 
