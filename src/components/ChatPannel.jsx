@@ -4,8 +4,6 @@ import { MessageList, Input, SystemMessage, Button } from "react-chat-elements"
 
 const ChatPannel = () => {
 
-
-
     return (
         <>
 
