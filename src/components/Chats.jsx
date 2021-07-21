@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Col } from "react-bootstrap"
 import { ChatList } from "react-chat-elements"
-import { io } from "socket.io-client";
 
 const ApiUrl = process.env.REACT_APP_API_URL
-const socket = io(ApiUrl, { transports: ["websocket"] });
 
-const Chats = () => {
+const Chats = ({ dataSource, setRoom }) => {
     const [query, setQuery] = useState("")
     const [contacts, setcontacts] = useState(null);
+    const [currentRoom, setCurrentRoom] = useState(null);
+
+
 
     const fetchQuery = async () => {
         try {
@@ -22,7 +23,7 @@ const Chats = () => {
                 })
                 if (res.ok) {
                     const json = await res.json()
-                    const users = json.map(item => {return { avatar: item.avatar, title: item.username, date: false }})
+                    const users = json.map(item => { return { avatar: item.avatar, title: item.username, date: false } })
                     setcontacts(users)
                 }
             }
@@ -31,6 +32,7 @@ const Chats = () => {
             console.log(error)
         }
     }
+
 
     return (
         <>
@@ -50,122 +52,39 @@ const Chats = () => {
                 <ChatList
                     style={{ maxHeight: "100%", overflowY: "scroll", }}
                     className='chat-list '
-                    dataSource={[
-                        {
-                            avatar: 'https://picsum.photos/seed/picsum/200/300',
-                            alt: 'Reactjs',
-                            title: 'Facebook',
-                            subtitle: 'What are you doing?',
-                            date: new Date(),
-                            unread: 3,
-                        },
-                        {
-                            avatar: 'https://picsum.photos/seed/picsum/200/300',
-                            alt: 'Reactjs',
-                            title: 'Facebook',
-                            subtitle: 'What are you doing?',
-                            date: new Date(),
-                            unread: 0,
-                        },
-                        {
-                            avatar: 'https://picsum.photos/seed/picsum/200/300',
-                            alt: 'Reactjs',
-                            title: 'Facebook',
-                            subtitle: 'What are you doing?',
-                            date: new Date(),
-                            unread: 0,
-                        },
-                        {
-                            avatar: 'https://picsum.photos/seed/picsum/200/300',
-                            alt: 'Reactjs',
-                            title: 'Facebook',
-                            subtitle: 'What are you doing?',
-                            date: new Date(),
-                            unread: 0,
-                        },
-                        {
-                            avatar: 'https://picsum.photos/seed/picsum/200/300',
-                            alt: 'Reactjs',
-                            title: 'Facebook',
-                            subtitle: 'What are you doing?',
-                            date: new Date(),
-                            unread: 0,
-                        },
-                        {
-                            avatar: 'https://picsum.photos/seed/picsum/200/300',
-                            alt: 'Reactjs',
-                            title: 'Facebook',
-                            subtitle: 'What are you doing?',
-                            date: new Date(),
-                            unread: 0,
-                        },
-                        {
-                            avatar: 'https://picsum.photos/seed/picsum/200/300',
-                            alt: 'Reactjs',
-                            title: 'Facebook',
-                            subtitle: 'What are you doing?',
-                            date: new Date(),
-                            unread: 0,
-                        },
-                        {
-                            avatar: 'https://picsum.photos/seed/picsum/200/300',
-                            alt: 'Reactjs',
-                            title: 'Facebook',
-                            subtitle: 'What are you doing?',
-                            date: new Date(),
-                            unread: 0,
-                        },
-                        {
-                            avatar: 'https://picsum.photos/seed/picsum/200/300',
-                            alt: 'Reactjs',
-                            title: 'Facebook',
-                            subtitle: "typing..."
-                        },
-                        {
-                            avatar: 'https://picsum.photos/seed/picsum/200/300',
-                            alt: 'Reactjs',
-                            title: 'Facebook',
-                            subtitle: "typing..."
-                        },
-                        {
-                            avatar: 'https://picsum.photos/seed/picsum/200/300',
-                            alt: 'Reactjs',
-                            title: 'Facebook',
-                            subtitle: "typing..."
-                        },
-                        {
-                            avatar: 'https://picsum.photos/seed/picsum/200/300',
-                            alt: 'Reactjs',
-                            title: 'Facebook',
-                            subtitle: "typing..."
-                        },
-                        {
-                            avatar: 'https://picsum.photos/seed/picsum/200/300',
-                            alt: 'Reactjs',
-                            title: 'Facebook',
-                            subtitle: "typing..."
-                        },
-                        {
-                            avatar: 'https://picsum.photos/seed/picsum/200/300',
-                            alt: 'Reactjs',
-                            title: 'Facebook',
-                            subtitle: "typing..."
-                        },
-                        {
-                            avatar: 'https://picsum.photos/seed/picsum/200/300',
-                            alt: 'Reactjs',
-                            title: 'Facebook',
-                            subtitle: "typing..."
-                        },
-                        {
-                            avatar: 'https://picsum.photos/seed/picsum/200/300',
-                            alt: 'Reactjs',
-                            title: 'Facebook',
-                            subtitle: "typing..."
-                        },
 
+                    dataSource={dataSource}
+                    // dataSource={[
+                    //         {
+                    //             avatar: 'https://picsum.photos/seed/picsum/200/300',
+                    //             alt: 'Reactjs',
+                    //             title: 'Facebook',
+                    //             subtitle: 'What are yozxcvczxvzxcvzcxvu d',
+                    //             date: new Date(),
+                    //             unread: 3,
+                    //         },
+                    //         {
+                    //             avatar: 'https://picsum.photos/seed/picsum/200/300',
+                    //             alt: 'Reactjs',
+                    //             title: 'Facebook',
+                    //             subtitle: 'What are you doing?',
+                    //             date: new Date(),
+                    //             unread: 3,
+                    //         },
+                    //     ]}
+                    onClick={(e) => setRoom(e.title)}
+                />
 
-                    ]} />
+                // dataSource={[
+                //     {
+                //         avatar: 'https://picsum.photos/seed/picsum/200/300',
+                //         alt: 'Reactjs',
+                //         title: 'Facebook',
+                //         subtitle: 'What are you doing?',
+                //         date: new Date(),
+                //         unread: 3,
+                //     },
+                // ]} />
             }
 
             {
