@@ -48,18 +48,18 @@ const ChatPannel = ({ chatHis, selectedRoom }) => {
 
     return (
         <>
-            <div className="messages d-flex flex-column-reverse">
 
-                <MessageList
-                    className='message-list'
-                    lockable={true}
-                    toBottomHeight={'100%'}
-                    dataSource={chatHistory ? chatHistory : []} />
 
-                {/* <SystemMessage text={"The start of your legendary conversation with Max"}>
+            <MessageList
+                className='message-list messages d-flex flex-column-reverse'
+                lockable={true}
+                toBottomHeight={'100%'}
+                dataSource={chatHistory ? chatHistory : []} />
+
+            {/* <SystemMessage text={"The start of your legendary conversation with Max"}>
 
                 </SystemMessage> */}
-            </div>
+
 
             <div className="input-parent d-flex p-3">
 
@@ -80,8 +80,8 @@ const ChatPannel = ({ chatHis, selectedRoom }) => {
                     }
                 />
 
-
             </div>
+
         </>
     );
 }
