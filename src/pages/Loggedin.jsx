@@ -2,7 +2,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import 'react-chat-elements/dist/main.css';
 import { useEffect, useState } from 'react';
 import { Col, Container, Row } from "react-bootstrap"
-import TopPannel from '../components/TopPannel';
+// import TopPannel from '../components/TopPannel';
 import Chats from "../components/Chats.jsx"
 import ChatPannel from "../components/ChatPannel.jsx"
 import Profile from './Profile';
@@ -19,26 +19,42 @@ function Home() {
     const [showProfile, setShowProfile] = useState(false)
     const [user, setuser] = useState(null)
 
-    const [dataSource, setDataSource] = useState("")
+    const [dataSource, setDataSource] = useState(null)
     const [selectedRoom, setSelectedRoom] = useState("")
 
     const [chatHis, setchatHis] = useState(null)
 
-    const token = localStorage.getItem("accessToken")
+    // const token = localStorage.getItem("accessToken")
     const username = localStorage.getItem("username")
+    const id = localStorage.getItem("id")
 
-    const setRoomForUser = async (user) => {
-        console.log('user:', user)
-        const response = await fetch(`${ApiUrl}/room/user/${user}`, {
+    const setRoomForUser = async (u) => {
+        console.log('u:', u)
+        const response = await fetch(`${ApiUrl}/room/user/${u.id}`, {
             method: "GET",
             headers: {
                 authorization: `Bearer ${localStorage.getItem("accessToken")}`
             }
         })
-        const { chatHistory } = await response.json();
-        setSelectedRoom(user)
-        setchatHis(chatHistory);
-        console.log('selectedRoom:', selectedRoom)
+        if (response.ok) {
+
+            const room = await response.json();
+            console.log('room:', room)
+            if (room._id) {
+
+                console.log('u:', u)
+                console.log('id:', id)
+                // const test = room.members.filter(item => { if (item._id !== id) return item.username })
+                const roomName = room.members.filter(item => (item._id !== id))
+                console.log('roomName:', roomName)
+
+                setSelectedRoom(null)
+                setSelectedRoom(roomName[0]._id)
+                setSelectedRoom(roomName[0].username)
+                // setchatHis(room.chathistory);
+                // console.log('selectedRoom:', selectedRoom)
+            }
+        }
 
     }
 
@@ -60,17 +76,21 @@ function Home() {
         })
         const chats = await response.json();
         console.log('chats:', chats)
+        console.log('user:', user)
+        console.log('id:', id)
+        // if (user) {
         const data = chats.map((item) => {
-            return { ...item, onClick: setRoom }
+            return { ...item, title: item.members.map(item => { if (item._id !== id) return item.username }) }
+            // return { ...item, onClick: setRoom }
         })
         console.log('data:', data)
         setDataSource(data)
+        // }
     }
 
     useEffect(() => {
-
-        getRooms()
-
+        fetchUserData()
+        getRooms();
         socket.on("connect", () => {
             socket.emit("joinMyRoom", { username: username, room: username });
 
@@ -79,13 +99,15 @@ function Home() {
         });
         socket.on("message", (message) => {
             setchatHis((oldChatHistory) => [...oldChatHistory, message]);
-          });
+        });
+
 
 
         return () => {
             console.log("Disconnected");
             socket.disconnect();
         };
+        // eslint-disable-next-line
     }, []);
 
 
@@ -102,6 +124,7 @@ function Home() {
                 const json = await res.json()
                 // console.log(json)
                 setuser(json)
+                localStorage.setItem("id", user._id)
             }
 
         } catch (error) {
@@ -109,7 +132,8 @@ function Home() {
         }
     }
     useEffect(() => {
-        fetchUserData()
+        fetchUserData();
+
     }, [showProfile])
 
 
