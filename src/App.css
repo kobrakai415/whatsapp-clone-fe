@@ -19,7 +19,7 @@
   background: #ffffff;
 }
 .green-banner {
-  background: #00bfa5;
+  background: #009688;
   height: 144px;
  width: 100%;
   z-index: -1000;
@@ -33,13 +33,6 @@
 
 .rce-mlist div[class^="rce-container-mbox"] {
   margin: 5px 0px 5px 0px;
-}
-
-.messages {
-  background: url(http://i.imgur.com/TnNwdvV.png);
-  max-height: 100%;
-  overflow-y: scroll;
-  flex-grow: 1; 
 }
 
 .overlay {
@@ -62,6 +55,8 @@
 .message-list{
   flex-grow: 1;
   height: 100%;
+  background: url(http://i.imgur.com/TnNwdvV.png);
+  overflow-y: auto;
 }
 .message-input {
   border-radius: 30px;
