@@ -15,6 +15,30 @@ const Login = ({ routerProps }) => {
     if (form.checkValidity() === false) {
       e.preventDefault();
       e.stopPropagation();
+
+      try {
+        const details = {
+          email: username,
+          password: password,
+        };
+        const res = await fetch(`${ApiUrl}/users/login`, {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(details),
+        });
+
+        if (res.ok) {
+          const json = await res.json();
+          localStorage.setItem("accessToken", json.accessToken);
+          localStorage.setItem("refreshToken", json.refreshToken);
+          localStorage.setItem("username", json.username);
+          routerProps.history.push("/user");
+        }
+      } catch (error) {
+        console.log(error);
+      }
     }
     setValidated(true);
 
