@@ -9,6 +9,8 @@ import Profile from './Profile';
 import TopRight from '../components/TopRight';
 import TopLeft from '../components/TopLeft';
 import { io } from "socket.io-client";
+import { useTransition, animated } from "react-spring"
+
 
 const ApiUrl = process.env.REACT_APP_API_URL
 const socket = io(ApiUrl, { transports: ["websocket"] });
@@ -26,6 +28,13 @@ function Home() {
 
     const token = localStorage.getItem("accessToken")
     const username = localStorage.getItem("username")
+
+    const transition = useTransition(showProfile, {
+        from: { x: -100, y: 0, opacity: 0, },
+        enter: { x: 0, y: 0, opacity: 1 },
+        leave: { x: -100, opacity: 0 },
+        delay: 100
+    })
 
 
     const setRoom = async (room) => {
@@ -61,7 +70,7 @@ function Home() {
             console.log(socket.id);
         });
 
-        
+
         // socket.emit("setUser", { username: username, token: token });
 
         // socket.emit("chatHistoryOfSelectedRoom", (selectedRoom))
@@ -116,8 +125,11 @@ function Home() {
                             </>
                         }
 
-                        {showProfile && <Profile show={showProfile} setShowProfile={setShowProfile} />
-                        }
+                        {/* {showProfile && <Profile show={showProfile} setShowProfile={setShowProfile} />
+                        } */}
+                        {transition((style, item) =>
+                            item ? <animated.div className={`h-100 stone-background`} style={style} ><Profile show={showProfile} setShowProfile={setShowProfile}/> </animated.div> : null
+                        )}
 
                     </Col>
                     <Col md={8} className="px-0 h-100 d-flex flex-column" >

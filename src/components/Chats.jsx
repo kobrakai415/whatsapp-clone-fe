@@ -11,7 +11,6 @@ const Chats = ({ dataSource, setRoom }) => {
     const fetchQuery = async () => {
         try {
 
-
             const res = await fetch(`${ApiUrl}/users/search/${query}`, {
                 method: "GET",
                 headers: {
@@ -33,7 +32,7 @@ const Chats = ({ dataSource, setRoom }) => {
     useEffect(() => {
         fetchQuery()
     }, [query])
-    
+
     return (
         <>
             <div className="search-background p-2">
