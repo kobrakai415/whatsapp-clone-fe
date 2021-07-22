@@ -50,11 +50,17 @@
 #search-bar-parent {
   position: relative;
   margin-top: 10px;
- /* background-color: #F6F6F6; */
+  /* background-color: #F6F6F6; */
 }
 .search-bar-glass {
   position: absolute;
   left: 17px;
   top: 8px;
   color: black;
+}
+
+.getid-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 100px;
 }

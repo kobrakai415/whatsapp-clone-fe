@@ -1,60 +1,45 @@
-import 'bootstrap/dist/css/bootstrap.min.css'
-import 'react-chat-elements/dist/main.css';
-import { useEffect } from 'react';
-import { Container, Row } from "react-bootstrap"
-import TopPannel from '../components/TopPannel';
-import Chats from "../components/Chats.jsx"
-import ChatPage from "../components/ChatPannel.jsx"
+import "bootstrap/dist/css/bootstrap.min.css";
+import "react-chat-elements/dist/main.css";
+import { useEffect, useState } from "react";
+import { Container, Row } from "react-bootstrap";
+import TopPannel from "../components/TopPannel";
+import GetId from "../components/GetId";
+import Chats from "../components/Chats.jsx";
+import ChatPannel from "../components/ChatPannel.jsx";
 
-const ApiUrl = process.env.REACT_APP_API_URL
+const ApiUrl = process.env.REACT_APP_API_URL;
 
-function Home() {
+function Loggedin() {
+  const [senderId, setSenderId] = useState("");
+  const [receiverId, setReceiverId] = useState("");
+  const [chatId, setChatId] = useState("");
 
-    const fetchUserData = async () => {
-        try {
-            const res = await fetch(`${ApiUrl}/users/me`, {
-                method: "GET",
-                headers: {
-                    authorization: `Bearer ${localStorage.getItem("accessToken")}`
-                }
-            })
+  const ApiUrl = process.env.REACT_APP_API_URL;
 
-            if (res.ok) {
-                const json = await res.json()
-                console.log(json)
-            }
+  return (
+    <>
+      {senderId && (
+        <Container
+          style={{
+            zIndex: "1000",
+            position: "relative",
+            maxHeight: "100vh",
+            boxSizing: "border-box",
+          }}
+          className=" app-container"
+        >
+          <TopPannel style={{ height: "9vh" }} senderId={senderId}></TopPannel>
 
-        } catch (error) {
-            console.log(error)
-        }
-    }
-    useEffect(() => {
-        fetchUserData()
-    }, [])
+          <Row style={{ height: "91vh" }}>
+            <Chats senderId={senderId} setChatId={setChatId} />
 
-
-    return (
-
-        <Container style={{ zIndex: "1000", position: "relative", maxHeight: "100vh", boxSizing: "border-box" }} className=" app-container" >
-            < TopPannel style={{ height: "9vh" }}>
-
-            </TopPannel >
-
-            <Row style={{ height: "91vh" }}>
-                <Chats />
-
-                <ChatPage />
-
-            </Row>
-
-
-        </Container >
-
-    );
+            <ChatPannel chatId={chatId} senderId={senderId} />
+          </Row>
+        </Container>
+      )}
+      {!senderId && <GetId setSenderId={setSenderId} />}
+    </>
+  );
 }
 
-export default Home;
-
-{/* <div style={{ top: "0px", position: "absolute" }} className="green-banner">
-        hello
-      </div> */}
+export default Loggedin;

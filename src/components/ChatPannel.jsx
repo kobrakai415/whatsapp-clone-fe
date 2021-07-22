@@ -1,163 +1,124 @@
-import React from 'react';
-import { Col } from "react-bootstrap"
-import { MessageList, Input, SystemMessage, Button } from "react-chat-elements"
+import React from "react";
+import { Col } from "react-bootstrap";
+import { MessageList, Input, Button } from "react-chat-elements";
+import { useEffect, useState } from "react";
 
-const ChatPannel = () => {
+const ApiUrl = process.env.REACT_APP_API_URL;
 
+const ChatPannel = ({ chatId, senderId }) => {
+  const [messagHistory, setMessageHistory] = useState(null);
+  const [messagData, setMessageData] = useState([]);
+  const [newMessage, setNewMessage] = useState("");
+  const [isNewMessage, setIsNewMessage] = useState(false);
 
+  useEffect(() => {
+    if (chatId) {
+      fetchMessages(chatId);
+    }
+  }, [chatId, isNewMessage]);
 
-    
-    return (
-        <Col md={8} style={{maxHeight: "100%"}} className=" messages d-flex flex-column justify-content-between p-0">
+  useEffect(() => {
+    if (messagHistory) {
+      buildMessageData();
+    }
+  }, [messagHistory]);
 
-            <div clasName="messages" style={{ maxHeight: "100%", overflowY: "scroll" }}>
-                <SystemMessage text={"The start of your legendary conversation with Max"}>
+  const fetchMessages = async (id) => {
+    try {
+      const response = await fetch(`${ApiUrl}/api/chat/${id}/messages`);
+      if (response.ok) {
+        const data = await response.json();
+        setMessageHistory(data);
+        console.log(messagHistory);
+      } else {
+        throw new Error("fetching messages failed");
+      }
+    } catch (error) {
+      alert(error.message);
+    }
+  };
 
-                </SystemMessage>
+  const buildMessageData = () => {
+    let source = [];
+    messagHistory.forEach((elem) => {
+      let position = elem.sender !== senderId ? "right" : "left";
+      let obj = {
+        position: position,
+        type: "text",
+        text: elem.content,
+        date: elem.createdAt,
+      };
+      source.push(obj);
+    });
+    setMessageData(source);
+  };
 
-                <MessageList
-                    className='message-list'
-                    lockable={true}
-                    toBottomHeight={'100%'}
-                    dataSource={[
-                        {
-                            position: 'left',
-                            type: 'text',
-                            text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
-                            date: new Date(),
-                            
-                        },
-                        {
-                            position: 'right',
-                            type: 'text',
-                            text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
-                            date: new Date(),
-                        },
-                        {
-                            position: 'right',
-                            type: 'text',
-                            text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
-                            date: new Date(),
-                        },
-                        {
-                            position: 'left',
-                            type: 'text',
-                            text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
-                            date: new Date(),
-                        },
-                        {
-                            position: 'right',
-                            type: 'text',
-                            text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
-                            date: new Date(),
-                        },
-                        {
-                            position: 'right',
-                            type: 'text',
-                            text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
-                            date: new Date(),
-                        },
-                        {
-                            position: 'right',
-                            type: 'text',
-                            text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
-                            date: new Date(),
-                        },
-                        {
-                            position: 'right',
-                            type: 'text',
-                            text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
-                            date: new Date(),
-                        },
-                        {
-                            position: 'right',
-                            type: 'text',
-                            text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
-                            date: new Date(),
-                        },
-                        {
-                            position: 'right',
-                            type: 'text',
-                            text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
-                            date: new Date(),
-                        },
-                        {
-                            position: 'right',
-                            type: 'text',
-                            text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
-                            date: new Date(),
-                        },
-                        {
-                            position: 'right',
-                            type: 'text',
-                            text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
-                            date: new Date(),
-                        },
-                        {
-                            position: 'right',
-                            type: 'text',
-                            text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
-                            date: new Date(),
-                        },
-                        {
-                            position: 'right',
-                            type: 'text',
-                            text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
-                            date: new Date(),
-                        },
-                        {
-                            position: 'right',
-                            type: 'text',
-                            text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
-                            date: new Date(),
-                        },
-                        {
-                            position: 'right',
-                            type: 'text',
-                            text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
-                            date: new Date(),
-                        },
-                        {
-                            position: 'right',
-                            type: 'text',
-                            text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
-                            date: new Date(),
-                        },
-                        {
-                            position: 'right',
-                            type: 'text',
-                            text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
-                            date: new Date(),
-                        },
-                        {
-                            position: 'right',
-                            type: 'text',
-                            text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
-                            date: new Date(),
-                        },
+  const postMessage = async (e) => {
+    try {
+      const response = await fetch(`${ApiUrl}/api/chat/${chatId}/new-message`, {
+        method: "put",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          content: newMessage,
+          sender: senderId,
+        }),
+      });
+      if (response.ok) {
+        setIsNewMessage(!isNewMessage);
+        setNewMessage("");
+      } else {
+        throw new Error("posting new message failed!");
+      }
+    } catch (error) {
+      alert(error.message);
+    }
+  };
 
-                    ]} />
-            </div>
-            <div className="input-parent d-flex p-3">
-
-                <Input
-                    className="message-input"
-                    placeholder="Type a message ..."
-                    multiline={false}
-                    maxlength={55000}
-                    rightButtons={<Button
-                       
-                        color='white'
-                        backgroundColor='black'
-                        text='Send' />
-
-                    }
-                />
-
-
-            </div>
-        </Col>
-    );
-}
+  return (
+    <Col
+      md={8}
+      style={{ maxHeight: "100%" }}
+      className=" messages d-flex flex-column justify-content-between p-0"
+    >
+      <div
+        className="messages"
+        style={{ maxHeight: "100%", overflowY: "scroll" }}
+      >
+        {messagData.length !== 0 && (
+          <MessageList
+            className="message-list"
+            lockable={true}
+            toBottomHeight={"100%"}
+            dataSource={messagData}
+          />
+        )}
+      </div>
+      <div className="input-parent d-flex p-3">
+        <Input
+          className="message-input"
+          placeholder="Type a message ..."
+          multiline={false}
+          maxlength={55000}
+          value="sdflkj"
+          onChange={(e) => {
+            setNewMessage(e.target.value);
+          }}
+          rightButtons={
+            <Button
+              color="white"
+              backgroundColor="black"
+              text="Send"
+              onClick={(e) => {
+                postMessage(e);
+              }}
+            />
+          }
+        />
+      </div>
+    </Col>
+  );
+};
 
 export default ChatPannel;
