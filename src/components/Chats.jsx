@@ -4,7 +4,7 @@ import { ChatList } from "react-chat-elements"
 
 const ApiUrl = process.env.REACT_APP_API_URL
 
-const Chats = ({ dataSource, setRoom }) => {
+const Chats = ({ dataSource, setRoom, setRoomForUser }) => {
     const [query, setQuery] = useState("")
     const [contacts, setcontacts] = useState(null);
 
@@ -93,7 +93,9 @@ const Chats = ({ dataSource, setRoom }) => {
                     <h6 className="py-2 ps-3">Contacts</h6>
                     <ChatList
                         className='chat-list'
-                        dataSource={contacts} />
+                        dataSource={contacts}
+                        onClick={(e) => setRoomForUser(e.title)}
+                    />
                 </>
             }
         </>
