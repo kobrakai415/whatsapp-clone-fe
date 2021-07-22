@@ -1,14 +1,14 @@
 import React from "react"
 import { Col } from "react-bootstrap"
 
-const TopRight = () => {
+const TopRight = ({selectedRoom}) => {
     return (
 
 
         <div className="stone-background d-flex justify-content-between">
 
             <div className="d-flex align-items-center justify-content-center">
-                <div className="d-flex" style={{ paddingLeft: "13px", paddingRight: "15px" }}>
+                {/* <div className="d-flex" style={{ paddingLeft: "13px", paddingRight: "15px" }}>
                     <img
                         className="my-3"
                         height={45} width={45}
@@ -16,8 +16,8 @@ const TopRight = () => {
                         src="https://cdn.vox-cdn.com/thumbor/mXo5ObKpTbHYi9YslBy6YhfedT4=/95x601:1280x1460/1200x800/filters:focal(538x858:742x1062)/cdn.vox-cdn.com/uploads/chorus_image/image/66699060/mgidarccontentnick.comc008fa9d_d.0.png"
                         alt="user-profile-pic"
                     />
-                </div>
-                <span className="p-2">Tariq</span>
+                </div> */}
+                <span className="p-2">{selectedRoom}</span>
             </div>
             <div className="d-flex align-items-center">
                 <svg
