@@ -7,11 +7,13 @@ import InputEmoji from "react-input-emoji";
 
 const ApiUrl = process.env.REACT_APP_API_URL
 const socket = io(ApiUrl, { transports: ["websocket"] });
-const username = localStorage.getItem("username")
+
+let username = 'mohammad'
+username = username ? localStorage.getItem("username") : 'mohammad'
 
 const ChatPannel = ({ chatHis, selectedRoom }) => {
     const [currentMessage, setCurrentMessage] = useState("");
-    const [chatHistory, setChatHistory] = useState();
+    const [chatHistory, setChatHistory] = useState([]);
 
     console.log('chatHis:', chatHis)
     console.log('selectedRoom:', selectedRoom)
@@ -34,6 +36,8 @@ const ChatPannel = ({ chatHis, selectedRoom }) => {
     };
 
     useEffect(() => {
+        setChatHistory([])
+        console.log('username:', username)
         console.log('chatHis:', chatHis)
         if (chatHis) {
             for (let index = 0; index < chatHis.length; index++) {

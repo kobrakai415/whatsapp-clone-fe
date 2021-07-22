@@ -4,7 +4,7 @@ import { ChatList } from "react-chat-elements"
 
 const ApiUrl = process.env.REACT_APP_API_URL
 
-const Chats = ({ dataSource, setRoom }) => {
+const Chats = ({ dataSource, setRoom, setRoomForUser }) => {
     const [query, setQuery] = useState("")
     const [contacts, setcontacts] = useState(null);
 
@@ -52,25 +52,25 @@ const Chats = ({ dataSource, setRoom }) => {
                     style={{ maxHeight: "100%", overflowY: "scroll", }}
                     className='chat-list '
 
-                    dataSource={dataSource}
-                    // dataSource={[
-                    //         {
-                    //             avatar: 'https://picsum.photos/seed/picsum/200/300',
-                    //             alt: 'Reactjs',
-                    //             title: 'Facebook',
-                    //             subtitle: 'What are yozxcvczxvzxcvzcxvu d',
-                    //             date: new Date(),
-                    //             unread: 3,
-                    //         },
-                    //         {
-                    //             avatar: 'https://picsum.photos/seed/picsum/200/300',
-                    //             alt: 'Reactjs',
-                    //             title: 'Facebook',
-                    //             subtitle: 'What are you doing?',
-                    //             date: new Date(),
-                    //             unread: 3,
-                    //         },
-                    //     ]}
+                    // dataSource={dataSource}
+                    dataSource={[
+                            {
+                                avatar: 'https://picsum.photos/seed/picsum/200/300',
+                                alt: 'Reactjs',
+                                title: 'Facebook',
+                                subtitle: 'What are yozxcvczxvzxcvzcxvu d',
+                                date: new Date(),
+                                unread: 3,
+                            },
+                            {
+                                avatar: 'https://picsum.photos/seed/picsum/200/300',
+                                alt: 'Reactjs',
+                                title: 'Facebook',
+                                subtitle: 'What are you doing?',
+                                date: new Date(),
+                                unread: 3,
+                            },
+                        ]}
                     onClick={(e) => setRoom(e.title)}
                 />
 
@@ -92,7 +92,9 @@ const Chats = ({ dataSource, setRoom }) => {
                     <h6 className="py-2 ps-3">Contacts</h6>
                     <ChatList
                         className='chat-list'
-                        dataSource={contacts} />
+                        dataSource={contacts}
+                        onClick={(e) => setRoomForUser(e.title)}
+                    />
                 </>
             }
         </>

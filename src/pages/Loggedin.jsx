@@ -36,12 +36,26 @@ function Home() {
         delay: 100
     })
 
+    const setRoomForUser = async (user) => {
+        console.log('user:', user)
+        const response = await fetch(`${ApiUrl}/room/user/${user}`, {
+            method: "GET",
+            headers: {
+                authorization: `Bearer ${localStorage.getItem("accessToken")}`
+            }
+        })
+        const { chatHistory } = await response.json();
+        setSelectedRoom(user)
+        setchatHis(chatHistory);
+        console.log('selectedRoom:', selectedRoom)
+
+    }
 
     const setRoom = async (room) => {
-        console.log('room:', room)
         setSelectedRoom(room)
+        setchatHis([])
         // socket.emit("chatHistoryOfSelectedRoom", (selectedRoom))
-        const response = await fetch(`${ApiUrl}/room/${room}`);
+        const response = await fetch(`${ApiUrl}/room/history/${room}`);
         const { chatHistory } = await response.json();
         setchatHis(chatHistory);
     }
@@ -67,18 +81,15 @@ function Home() {
         getRooms()
 
         socket.on("connect", () => {
+            socket.emit("joinMyRoom", { username: username, room: username });
+
             console.log(socket.id);
+
         });
+        socket.on("message", (message) => {
+            setchatHis((oldChatHistory) => [...oldChatHistory, message]);
+          });
 
-
-        // socket.emit("setUser", { username: username, token: token });
-
-        // socket.emit("chatHistoryOfSelectedRoom", (selectedRoom))
-
-        // socket.on("chatHistory", ({ chatHistory, room }) => {
-        //     setchatHis(chatHistory)
-        //     setChatRoom(chatHistory)
-        // })
 
         return () => {
             console.log("Disconnected");
@@ -121,7 +132,7 @@ function Home() {
                             <>
                                 <TopLeft name={user.username} avatar={user.avatar} setShowProfile={setShowProfile} />
 
-                                <Chats setRoom={setRoom} dataSource={dataSource ? dataSource : []} />
+                                <Chats setRoom={setRoom} setRoomForUser={setRoomForUser} dataSource={dataSource ? dataSource : []} />
                             </>
                         }
 
@@ -134,7 +145,7 @@ function Home() {
                     </Col>
                     <Col md={8} className="px-0 h-100 d-flex flex-column" >
 
-                        <TopRight />
+                        <TopRight selectedRoom={selectedRoom} />
 
                         <ChatPannel chatHis={chatHis} selectedRoom={selectedRoom} />
 
