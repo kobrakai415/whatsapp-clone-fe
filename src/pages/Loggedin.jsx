@@ -22,44 +22,53 @@ function Home() {
     const [dataSource, setDataSource] = useState("")
     const [selectedRoom, setSelectedRoom] = useState("")
 
-    const [chatRoom, setChatRoom] = useState("")
     const [chatHis, setchatHis] = useState(null)
 
     const token = localStorage.getItem("accessToken")
     const username = localStorage.getItem("username")
 
-    // const startChat = () => {
-    // socket.emit("startChat", {userId: } )
-    //
-
-    const setRoom = (room) => {
+    const setRoom = async (room) => {
         console.log('room:', room)
         setSelectedRoom(room)
-        socket.emit("chatHistoryOfSelectedRoom", (selectedRoom))
+        // socket.emit("chatHistoryOfSelectedRoom", (selectedRoom))
+        const response = await fetch(`${ApiUrl}/room/${room}`);
+        const { chatHistory } = await response.json();
+        setchatHis(chatHistory);
+    }
 
+    const getRooms = async () => {
+        const response = await fetch(`${ApiUrl}/users/me/chats`, {
+            method: "GET",
+            headers: {
+                authorization: `Bearer ${localStorage.getItem("accessToken")}`
+            }
+        })
+        const chats = await response.json();
+        console.log('chats:', chats)
+        const data = chats.map((item) => {
+            return { ...item, onClick: setRoom }
+        })
+        console.log('data:', data)
+        setDataSource(data)
     }
 
     useEffect(() => {
+
+        getRooms()
+
         socket.on("connect", () => {
             console.log(socket.id);
         });
 
-        socket.on("roomData", (roomData) => {
-            console.log('roomData:', roomData)
-            const data = roomData.map((item) => {
-                return { ...item, onClick: setRoom }
-            })
+        
+        // socket.emit("setUser", { username: username, token: token });
 
-            setDataSource(data)
+        // socket.emit("chatHistoryOfSelectedRoom", (selectedRoom))
 
-        })
-
-        socket.emit("chatHistoryOfSelectedRoom", (selectedRoom))
-
-        socket.on("chatHistory", ({ chatHistory, room }) => {
-            setchatHis(chatHistory)
-            setChatRoom(chatHistory)
-        })
+        // socket.on("chatHistory", ({ chatHistory, room }) => {
+        //     setchatHis(chatHistory)
+        //     setChatRoom(chatHistory)
+        // })
 
         return () => {
             console.log("Disconnected");
@@ -102,7 +111,7 @@ function Home() {
                             <>
                                 <TopLeft avatar={user.avatar} setShowProfile={setShowProfile} />
 
-                                <Chats setRoom={setRoom} dataSource={dataSource} />
+                                <Chats setRoom={setRoom} dataSource={dataSource ? dataSource : []} />
                             </>
                         }
 
