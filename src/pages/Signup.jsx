@@ -1,114 +1,130 @@
-import React, { useState } from 'react';
-import { Container, Form, Button } from "react-bootstrap"
+import React, { useState } from "react";
+import whatsapplogo from "../assets/whatsapplogo.png";
+import { Container, Form, Button, Col, Row, Image, Card } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
-const ApiUrl = process.env.REACT_APP_API_URL
+const ApiUrl = process.env.REACT_APP_API_URL;
 
 const Signup = () => {
-    const [name, setName] = useState("");
-    const [surname, setSurname] = useState("");
-    const [area, setArea] = useState("");
-    const [email, setEmail] = useState("");
-    const [signupPassword, setSignupPassword] = useState("");
-    const [signupUsername, setSignupUsername] = useState("");
-    const [profile, setProfile] = useState("");
+  const [name, setName] = useState("");
+  const [surname, setSurname] = useState("");
+  const [area, setArea] = useState("");
+  const [email, setEmail] = useState("");
+  const [signupPassword, setSignupPassword] = useState("");
+  const [signupUsername, setSignupUsername] = useState("");
+  const [profile, setProfile] = useState("");
+  const [validated, setValidated] = useState(false);
 
-    const [show, setShow] = useState(false);
+  const [show, setShow] = useState(false);
 
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
-    const signup = async () => {
-        try {
-            const newUser = {
-                name: name,
-                surname: surname,
-                email: email,
-                username: signupUsername,
-                password: signupPassword,
-            };
-            const res = await fetch(`${ApiUrl}/users/register`, {
-                method: "POST",
-                headers: {
-                    "content-type": "application/json",
-                },
-                body: JSON.stringify(newUser),
-            });
-            if (res.ok) {
-                const data = await res.json();
+  const signup = async (e) => {
+    const form = e.currentTarget;
+    if (form.checkValidity() === false) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    setValidated(true);
 
-                console.log(data);
-            } 
-        } catch (error) {
-            console.log(error);
-        }
-    };
+    try {
+      const newUser = {
+        name: name,
+        surname: surname,
+        email: email,
+        username: signupUsername,
+        password: signupPassword,
+      };
+      const res = await fetch(`${ApiUrl}/users/register`, {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(newUser),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        console.log(data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
+  return (
+    <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: "100vh" }}>
+      <Col xs={8} md={7}>
+        <Form noValidate validated={validated} className="login-container px-4 py-5">
+          <Row>
+            <Col xs={8} md={7}>
+              <h3 >Create your Account</h3>
+              <p className="text-muted mb-4">It's quick and easy</p>
+              {/* <Row>
+                <Col>
+                  <Form.Group className="mb-3" controlId="name">
+                    <Form.Label>First Name</Form.Label>
 
-    return (
+                    <Form.Control required value={name} onChange={(e) => setName(e.target.value)} type="text" placeholder="First name" />
+                    <Form.Control.Feedback type="invalid">Please enter your first name.</Form.Control.Feedback>
+                  </Form.Group>
+                </Col>
+                <Col>
+                  <Form.Group className="mb-3" controlId="surname">
+                    <Form.Label>Last Name</Form.Label>
 
-        <Container
-            className="d-flex justify-content-center align-items-center"
-            style={{ minHeight: "100vh" }}
-        >
+                    <Form.Control required value={surname} onChange={(e) => setSurname(e.target.value)} type="text" placeholder="Last Name" />
+                    <Form.Control.Feedback type="invalid">Please enter your last name.</Form.Control.Feedback>
+                  </Form.Group>{" "}
+                </Col>
+              </Row> */}
+              <Row>
+                <Form.Group className="mb-3" controlId="formBasicEmail">
+                  <Form.Label>Email address</Form.Label>
 
-            <Form className="login-container p-5">
-                <h3 className="my-3">SignUp</h3>
-                <Form.Group className='mb-3' controlId='name'>
-                    <Form.Label>Name</Form.Label>
-                    <Form.Control
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        type='text'
-                        placeholder='Enter name'
-                    />
+                  <Form.Control required value={email} onChange={(e) => setEmail(e.target.value)} type="email" placeholder="name@example.com" />
+                  <Form.Control.Feedback type="invalid">Please enter your email address.</Form.Control.Feedback>
+                  <Form.Text className="text-muted">We'll never share your email with anyone else.</Form.Text>
                 </Form.Group>
-                <Form.Group className='mb-3' controlId='surname'>
-                    <Form.Label>Surname</Form.Label>
-                    <Form.Control
-                        value={surname}
-                        onChange={(e) => setSurname(e.target.value)}
-                        type='text'
-                        placeholder='Enter surname'
-                    />
-                </Form.Group>
+              </Row>
+              <Form.Group className="mb-3" controlId="signupUsername">
+                <Form.Label>Username</Form.Label>
+                <Form.Control value={signupUsername} onChange={(e) => setSignupUsername(e.target.value)} type="text" placeholder="Username" />
+                <Form.Control.Feedback type="invalid">Please enter your username.</Form.Control.Feedback>
+              </Form.Group>
+              <Form.Group className="mb-3" controlId="signupPassword">
+                <Form.Label>Password</Form.Label>
+                <Form.Control required value={signupPassword} onChange={(e) => setSignupPassword(e.target.value)} type="password" placeholder="Enter password" />
+                <Form.Control.Feedback type="invalid">Please enter your password.</Form.Control.Feedback>
 
-                <Form.Group className='mb-3' controlId='email'>
-                    <Form.Label>Email address</Form.Label>
-                    <Form.Control
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        type='email'
-                        placeholder='Enter email'
-                    />
-                    <Form.Text className='text-muted'>
-                        We'll never share your email with anyone else.
-                    </Form.Text>
-                </Form.Group>
-                <Form.Group className='mb-3' controlId='signupUsername'>
-                    <Form.Label>Username</Form.Label>
-                    <Form.Control
-                        value={signupUsername}
-                        onChange={(e) => setSignupUsername(e.target.value)}
-                        type='text'
-                        placeholder='Enter username'
-                    />
-                </Form.Group>
-                <Form.Group className='mb-3' controlId='signupPassword'>
-                    <Form.Label>Password</Form.Label>
-                    <Form.Control
-                        value={signupPassword}
-                        onChange={(e) => setSignupPassword(e.target.value)}
-                        type='password'
-                        placeholder='Enter password'
-                    />
-                </Form.Group>
-
-                <Button onClick={signup} className="me-4" variant='primary' type='button'>
-                    SignUp
+                <Form.Text className="text-muted">Use 8 or more characters with a mix of letters, numbers & symbols</Form.Text>
+              </Form.Group>
+              <div className="d-grid gap-2 mt-4 mb-4">
+                <Button variant="primary" size="lg" onClick={signup} type="button">
+                  SignUp
                 </Button>
-            </Form>
-        </Container>
-    );
-}
+              </div>
+              <Row className="d-grid gap-2 justify-content-md-center mb-2">
+                <Link to="/">
+                  <p>I already have an account</p>
+                </Link>{" "}
+              </Row>
+            </Col>
+            <Col className="box">
+              <Card className="logo">
+                <Card.Img variant="top" src={whatsapplogo} alt="whatsappLogo" />
+                <Card.Body>
+                  <p className="text-muted mb-3  d-flex justify-content-md-center ">Simple. Secure. Reliable messaging</p>
+                </Card.Body>
+              </Card>
+            </Col>
+          </Row>
+        </Form>
+      </Col>
+
+      <Form></Form>
+    </Container>
+  );
+};
 
 export default Signup;

@@ -50,25 +50,25 @@ const Chats = ({ dataSource, setRoom }) => {
                     style={{ maxHeight: "100%", overflowY: "scroll", }}
                     className='chat-list '
 
-                    dataSource={dataSource}
-                    // dataSource={[
-                    //         {
-                    //             avatar: 'https://picsum.photos/seed/picsum/200/300',
-                    //             alt: 'Reactjs',
-                    //             title: 'Facebook',
-                    //             subtitle: 'What are yozxcvczxvzxcvzcxvu d',
-                    //             date: new Date(),
-                    //             unread: 3,
-                    //         },
-                    //         {
-                    //             avatar: 'https://picsum.photos/seed/picsum/200/300',
-                    //             alt: 'Reactjs',
-                    //             title: 'Facebook',
-                    //             subtitle: 'What are you doing?',
-                    //             date: new Date(),
-                    //             unread: 3,
-                    //         },
-                    //     ]}
+                    // dataSource={dataSource}
+                    dataSource={[
+                            {
+                                avatar: 'https://picsum.photos/seed/picsum/200/300',
+                                alt: 'Reactjs',
+                                title: 'Facebook',
+                                subtitle: 'What are yozxcvczxvzxcvzcxvu d',
+                                date: new Date(),
+                                unread: 3,
+                            },
+                            {
+                                avatar: 'https://picsum.photos/seed/picsum/200/300',
+                                alt: 'Reactjs',
+                                title: 'Facebook',
+                                subtitle: 'What are you doing?',
+                                date: new Date(),
+                                unread: 3,
+                            },
+                        ]}
                     onClick={(e) => setRoom(e.title)}
                 />
 
