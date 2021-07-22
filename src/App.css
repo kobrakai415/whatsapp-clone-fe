@@ -1,3 +1,7 @@
+body {
+  background: #eeebeb;
+}
+
 .app-container {
   padding: 10px, 0, 10px, 0;
   position: relative;
@@ -21,10 +25,10 @@
 .green-banner {
   background: #009688;
   height: 144px;
- width: 100%;
+  width: 100%;
   z-index: -1000;
-  position:absolute;
-  top: 0px
+  position: absolute;
+  top: 0px;
 }
 
 .top-pannel-left {
@@ -35,6 +39,13 @@
   margin: 5px 0px 5px 0px;
 }
 
+.messages {
+  background: url(http://i.imgur.com/TnNwdvV.png);
+  max-height: 100%;
+  overflow-y: scroll;
+  flex-grow: 1;
+}
+
 .overlay {
   position: absolute;
   top: 50%;
@@ -43,16 +54,14 @@
   opacity: 0;
 }
 
-
-.profile-pic:hover  > .overlay {
-    opacity: 1;
-
+.profile-pic:hover > .overlay {
+  opacity: 1;
 }
 
 .input-parent {
   background-color: #f0f0f0;
 }
-.message-list{
+.message-list {
   flex-grow: 1;
   height: 100%;
   background: url(http://i.imgur.com/TnNwdvV.png);
@@ -68,6 +77,9 @@
 
 .login-container {
   border: 1px solid rgb(221, 220, 220);
+  border-radius: 10px;
+  box-shadow: 1px 1px rgb(250, 248, 248), -0.1em 0 2em rgb(219, 219, 219);
+  background-color: white;
 }
 .border-top-bottom {
   border-top: 1px solid rgb(221, 220, 220);
@@ -92,4 +104,15 @@
   left: 17px;
   top: 8px;
   color: black;
+}
+
+.box .logo {
+  display: flex;
+  align-self: center;
+  justify-content: center;
+  border: none;
+}
+.box {
+  display: flex;
+  justify-content: center;  
 }
