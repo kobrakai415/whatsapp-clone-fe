@@ -71,7 +71,7 @@ const Chats = ({ dataSource, setRoom, setRoomForUser }) => {
                     //             unread: 3,
                     //         },
                     //     ]}
-                    onClick={(e) => setRoom(e.title)}
+                    onClick={(e) => setRoom(e)}
                 />
 
                 // dataSource={[

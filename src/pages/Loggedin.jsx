@@ -20,7 +20,8 @@ function Home() {
     const [user, setuser] = useState(null)
 
     const [dataSource, setDataSource] = useState(null)
-    const [selectedRoom, setSelectedRoom] = useState("")
+    const [selectedRoom, setSelectedRoom] = useState(null)
+    const [chats, setChats] = useState(null)
 
     const [chatHis, setchatHis] = useState(null)
 
@@ -49,20 +50,18 @@ function Home() {
                 console.log('roomName:', roomName)
 
                 setSelectedRoom(null)
-                setSelectedRoom(roomName[0]._id)
-                setSelectedRoom(roomName[0].username)
-                // setchatHis(room.chathistory);
-                // console.log('selectedRoom:', selectedRoom)
+                setSelectedRoom({ ...room, title: roomName[0].username })
+                // setSelectedRoom(roomName[0])
+                setchatHis(room.chatHistory);
             }
         }
-
     }
 
     const setRoom = async (room) => {
         setSelectedRoom(room)
         setchatHis([])
-        // socket.emit("chatHistoryOfSelectedRoom", (selectedRoom))
-        const response = await fetch(`${ApiUrl}/room/history/${room}`);
+        console.log('room:', room)
+        const response = await fetch(`${ApiUrl}/room/history/${room.title}`);
         const { chatHistory } = await response.json();
         setchatHis(chatHistory);
     }
@@ -74,18 +73,17 @@ function Home() {
                 authorization: `Bearer ${localStorage.getItem("accessToken")}`
             }
         })
-        const chats = await response.json();
-        console.log('chats:', chats)
-        console.log('user:', user)
-        console.log('id:', id)
-        // if (user) {
-        const data = chats.map((item) => {
+
+        const responseOfChats = await response.json();
+
+        setChats(responseOfChats)
+
+        const chatsNames = responseOfChats.map((item) => {
             return { ...item, title: item.members.map(item => { if (item._id !== id) return item.username }) }
             // return { ...item, onClick: setRoom }
         })
-        console.log('data:', data)
-        setDataSource(data)
-        // }
+        console.log('chatsNames:', chatsNames)
+        setDataSource(chatsNames)
     }
 
     useEffect(() => {
@@ -147,7 +145,7 @@ function Home() {
                             <>
                                 <TopLeft name={user.username} avatar={user.avatar} setShowProfile={setShowProfile} />
 
-                                <Chats setRoom={setRoom} setRoomForUser={setRoomForUser} dataSource={dataSource ? dataSource : []} />
+                                <Chats chats={chats} setRoom={setRoom} setRoomForUser={setRoomForUser} dataSource={dataSource ? dataSource : []} />
                             </>
                         }
 
@@ -159,7 +157,7 @@ function Home() {
 
                         <TopRight selectedRoom={selectedRoom} />
 
-                        <ChatPannel chatHis={chatHis} selectedRoom={selectedRoom} />
+                        <ChatPannel chats={chats} chatHis={chatHis} selectedRoom={selectedRoom} />
 
                     </Col>
                 </Row>
