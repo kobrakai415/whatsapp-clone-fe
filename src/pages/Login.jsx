@@ -10,38 +10,13 @@ const Login = ({ routerProps }) => {
   const [password, setPassword] = useState("");
   const [validated, setValidated] = useState(false);
 
-  const login = async (e) => {
-    const form = e.currentTarget;
+  const login = async (event) => {
+    const form = event.currentTarget;
     if (form.checkValidity() === false) {
-      e.preventDefault();
-      e.stopPropagation();
-
-      try {
-        const details = {
-          email: username,
-          password: password,
-        };
-        const res = await fetch(`${ApiUrl}/users/login`, {
-          method: "POST",
-          headers: {
-            "content-type": "application/json",
-          },
-          body: JSON.stringify(details),
-        });
-
-        if (res.ok) {
-          const json = await res.json();
-          localStorage.setItem("accessToken", json.accessToken);
-          localStorage.setItem("refreshToken", json.refreshToken);
-          localStorage.setItem("username", json.username);
-          routerProps.history.push("/user");
-        }
-      } catch (error) {
-        console.log(error);
-      }
+      event.preventDefault();
+      event.stopPropagation();
     }
     setValidated(true);
-
     try {
       const details = {
         email: username,
@@ -58,8 +33,11 @@ const Login = ({ routerProps }) => {
       if (res.ok) {
         const json = await res.json();
         localStorage.setItem("accessToken", json.accessToken);
+        localStorage.setItem("refreshToken", json.refreshToken);
         localStorage.setItem("username", json.username);
         routerProps.history.push("/user");
+      } else {
+        alert("Credentials are incorrect");
       }
     } catch (error) {
       console.log(error);
