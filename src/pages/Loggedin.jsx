@@ -27,6 +27,7 @@ function Home() {
     const token = localStorage.getItem("accessToken")
     const username = localStorage.getItem("username")
 
+
     const setRoom = async (room) => {
         console.log('room:', room)
         setSelectedRoom(room)
@@ -98,7 +99,7 @@ function Home() {
     }
     useEffect(() => {
         fetchUserData()
-    }, [])
+    }, [showProfile])
 
 
     return (
@@ -109,7 +110,7 @@ function Home() {
 
                         {!showProfile && user &&
                             <>
-                                <TopLeft avatar={user.avatar} setShowProfile={setShowProfile} />
+                                <TopLeft name={user.username} avatar={user.avatar} setShowProfile={setShowProfile} />
 
                                 <Chats setRoom={setRoom} dataSource={dataSource ? dataSource : []} />
                             </>
