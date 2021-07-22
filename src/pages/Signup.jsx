@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 const ApiUrl = process.env.REACT_APP_API_URL;
 
-const Signup = () => {
+const Signup = ({ routerProps }) => {
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
   const [area, setArea] = useState("");
@@ -14,6 +14,7 @@ const Signup = () => {
   const [signupUsername, setSignupUsername] = useState("");
   const [profile, setProfile] = useState("");
   const [validated, setValidated] = useState(false);
+  const [isValid, setisValid] = useState(false);
 
   const [show, setShow] = useState(false);
 
@@ -27,6 +28,10 @@ const Signup = () => {
       e.stopPropagation();
     }
     setValidated(true);
+
+    if (signupPassword.length < 8) {
+      setisValid(false);
+    }
 
     try {
       const newUser = {
@@ -46,6 +51,7 @@ const Signup = () => {
       if (res.ok) {
         const data = await res.json();
         console.log(data);
+        routerProps.history.push("/");
       }
     } catch (error) {
       console.log(error);
@@ -53,77 +59,63 @@ const Signup = () => {
   };
 
   return (
-    <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: "100vh" }}>
-      <Col xs={8} md={7}>
-        <Form noValidate validated={validated} className="login-container px-4 py-5">
-          <Row>
-            <Col xs={8} md={7}>
-              <h3 >Create your Account</h3>
-              <p className="text-muted mb-4">It's quick and easy</p>
-              {/* <Row>
-                <Col>
-                  <Form.Group className="mb-3" controlId="name">
-                    <Form.Label>First Name</Form.Label>
+    <div>
+      <Container className="d-flex justify-content-center align-items-center " style={{ minHeight: "100vh" }}>
+        <Col xs={8} md={9}>
+          <Form noValidate validated={validated} className="signup-container px-4 py-5">
+            <Row>
+              <Col xs={8} md={7}>
+                <h3>Create your Account</h3>
+                <p className="text-muted mb-4">It's quick and easy</p>
 
-                    <Form.Control required value={name} onChange={(e) => setName(e.target.value)} type="text" placeholder="First name" />
-                    <Form.Control.Feedback type="invalid">Please enter your first name.</Form.Control.Feedback>
+                <Row>
+                  <Form.Group className="mb-3" controlId="formBasicEmail">
+                    <Form.Label>Email address</Form.Label>
+
+                    <Form.Control required value={email} onChange={(e) => setEmail(e.target.value)} type="email" placeholder="name@example.com" />
+                    <Form.Control.Feedback type="invalid">Please enter your email address.</Form.Control.Feedback>
+                    <Form.Text className="text-muted">We'll never share your email with anyone else.</Form.Text>
                   </Form.Group>
-                </Col>
-                <Col>
-                  <Form.Group className="mb-3" controlId="surname">
-                    <Form.Label>Last Name</Form.Label>
-
-                    <Form.Control required value={surname} onChange={(e) => setSurname(e.target.value)} type="text" placeholder="Last Name" />
-                    <Form.Control.Feedback type="invalid">Please enter your last name.</Form.Control.Feedback>
-                  </Form.Group>{" "}
-                </Col>
-              </Row> */}
-              <Row>
-                <Form.Group className="mb-3" controlId="formBasicEmail">
-                  <Form.Label>Email address</Form.Label>
-
-                  <Form.Control required value={email} onChange={(e) => setEmail(e.target.value)} type="email" placeholder="name@example.com" />
-                  <Form.Control.Feedback type="invalid">Please enter your email address.</Form.Control.Feedback>
-                  <Form.Text className="text-muted">We'll never share your email with anyone else.</Form.Text>
+                </Row>
+                <Form.Group className="mb-3" controlId="signupUsername">
+                  <Form.Label>Username</Form.Label>
+                  <Form.Control required value={signupUsername} onChange={(e) => setSignupUsername(e.target.value)} type="text" placeholder="Username" />
+                  <Form.Control.Feedback type="invalid">Please enter your username.</Form.Control.Feedback>
                 </Form.Group>
-              </Row>
-              <Form.Group className="mb-3" controlId="signupUsername">
-                <Form.Label>Username</Form.Label>
-                <Form.Control value={signupUsername} onChange={(e) => setSignupUsername(e.target.value)} type="text" placeholder="Username" />
-                <Form.Control.Feedback type="invalid">Please enter your username.</Form.Control.Feedback>
-              </Form.Group>
-              <Form.Group className="mb-3" controlId="signupPassword">
-                <Form.Label>Password</Form.Label>
-                <Form.Control required value={signupPassword} onChange={(e) => setSignupPassword(e.target.value)} type="password" placeholder="Enter password" />
-                <Form.Control.Feedback type="invalid">Please enter your password.</Form.Control.Feedback>
+                <Form.Group className="mb-3" controlId="signupPassword">
+                  <Form.Label>Password</Form.Label>
+                  <Form.Control required value={signupPassword} onChange={(e) => setSignupPassword(e.target.value)} type="password" placeholder="Enter password" />
+                  <Form.Control.Feedback type="invalid">Please enter your password.</Form.Control.Feedback>
 
-                <Form.Text className="text-muted">Use 8 or more characters with a mix of letters, numbers & symbols</Form.Text>
-              </Form.Group>
-              <div className="d-grid gap-2 mt-4 mb-4">
-                <Button variant="primary" size="lg" onClick={signup} type="button">
-                  SignUp
-                </Button>
-              </div>
-              <Row className="d-grid gap-2 justify-content-md-center mb-2">
-                <Link to="/">
-                  <p>I already have an account</p>
-                </Link>{" "}
-              </Row>
-            </Col>
-            <Col className="box">
-              <Card className="logo">
-                <Card.Img variant="top" src={whatsapplogo} alt="whatsappLogo" />
-                <Card.Body>
-                  <p className="text-muted mb-3  d-flex justify-content-md-center ">Simple. Secure. Reliable messaging</p>
-                </Card.Body>
-              </Card>
-            </Col>
-          </Row>
-        </Form>
-      </Col>
-
-      <Form></Form>
-    </Container>
+                  <Form.Text className="text-muted">Use 8 or more characters with a mix of letters, numbers & symbols</Form.Text>
+                </Form.Group>
+                <div className="d-grid gap-2 mt-4 mb-4">
+                  <Button variant="primary" size="lg" onClick={signup} type="button">
+                    SignUp
+                  </Button>
+                </div>
+                <Row className="d-grid gap-2 justify-content-md-center mb-2">
+                  <p>
+                    Already have an account? Login
+                    <Link to="/">
+                      <span className="m-1">here</span>
+                    </Link>{" "}
+                  </p>
+                </Row>
+              </Col>
+              <Col className="box">
+                <Card className="logo">
+                  <Card.Img variant="top" src={whatsapplogo} alt="whatsappLogo" />
+                  <Card.Body>
+                    <p className="text-muted mb-3  d-flex justify-content-md-center ">Simple. Secure. Reliable messaging</p>
+                  </Card.Body>
+                </Card>
+              </Col>
+            </Row>
+          </Form>
+        </Col>
+      </Container>
+    </div>
   );
 };
 

@@ -7,6 +7,7 @@ body {
   position: relative;
   height: 100vh;
 }
+
 .thin-border {
   border: 1px solid rgb(221, 220, 220);
 }
@@ -81,6 +82,12 @@ body {
   box-shadow: 1px 1px rgb(250, 248, 248), -0.1em 0 2em rgb(219, 219, 219);
   background-color: white;
 }
+.signup-container {
+  border: 1px solid rgb(221, 220, 220);
+  border-radius: 10px;
+  box-shadow: 1px 1px rgb(250, 248, 248), 0 0.4em #eeebeb;
+  background-color: white;
+}
 .border-top-bottom {
   border-top: 1px solid rgb(221, 220, 220);
   border-bottom: 1px solid rgb(221, 220, 220);
@@ -114,5 +121,5 @@ body {
 }
 .box {
   display: flex;
-  justify-content: center;  
+  justify-content: center;
 }
