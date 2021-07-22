@@ -11,7 +11,6 @@ const Chats = ({ dataSource, setRoom, setRoomForUser }) => {
     const fetchQuery = async () => {
         try {
 
-
             const res = await fetch(`${ApiUrl}/users/search/${query}`, {
                 method: "GET",
                 headers: {
@@ -20,7 +19,7 @@ const Chats = ({ dataSource, setRoom, setRoomForUser }) => {
             })
             if (res.ok) {
                 const json = await res.json()
-                const users = json.map(item => { return { avatar: item.avatar, title: item.username, date: false } })
+                const users = json.map(item => { return { avatar: item.avatar, title: item.username, date: false, id: item._id } })
                 setcontacts(users)
             }
 
@@ -94,7 +93,7 @@ const Chats = ({ dataSource, setRoom, setRoomForUser }) => {
                     <ChatList
                         className='chat-list'
                         dataSource={contacts}
-                        onClick={(e) => setRoomForUser(e.title)}
+                        onClick={(e) => setRoomForUser(e)}
                     />
                 </>
             }
