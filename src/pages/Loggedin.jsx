@@ -110,7 +110,7 @@ function Home() {
     }
     useEffect(() => {
         fetchUserData()
-    }, [])
+    }, [showProfile])
 
 
     return (
@@ -121,7 +121,7 @@ function Home() {
 
                         {!showProfile && user &&
                             <>
-                                <TopLeft avatar={user.avatar} setShowProfile={setShowProfile} />
+                                <TopLeft name={user.username} avatar={user.avatar} setShowProfile={setShowProfile} />
 
                                 <Chats setRoom={setRoom} setRoomForUser={setRoomForUser} dataSource={dataSource ? dataSource : []} />
                             </>

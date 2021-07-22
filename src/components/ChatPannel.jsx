@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Col } from "react-bootstrap"
 import { MessageList, Input, SystemMessage, Button } from "react-chat-elements"
 import { io } from "socket.io-client";
+import InputEmoji from "react-input-emoji";
+
 
 const ApiUrl = process.env.REACT_APP_API_URL
 const socket = io(ApiUrl, { transports: ["websocket"] });
@@ -16,8 +18,8 @@ const ChatPannel = ({ chatHis, selectedRoom }) => {
     console.log('chatHis:', chatHis)
     console.log('selectedRoom:', selectedRoom)
 
-    const sendMessage = (e) => {
-        e.preventDefault();
+    const sendMessage = (   ) => {
+        
         const messageToSend = {
             sender: username,
             text: currentMessage,
@@ -65,24 +67,16 @@ const ChatPannel = ({ chatHis, selectedRoom }) => {
                 </SystemMessage> */}
 
 
+
             <div className="input-parent d-flex p-3">
-
-                <Input
+                <InputEmoji
                     className="message-input"
-                    placeholder="Type a message ..."
-                    multiline={false}
-                    maxlength={55000}
                     value={currentMessage}
-                    onChange={(e) => (setCurrentMessage(e.target.value))}
-                    rightButtons={<Button
-
-                        color='white'
-                        backgroundColor='black'
-                        text='Send'
-                        onClick={sendMessage}
+                    onChange={(value) => (setCurrentMessage(value))}
+                    cleanOnEnter={true}
+                    onEnter={sendMessage}
                     />
-                    }
-                />
+                    
 
             </div>
 

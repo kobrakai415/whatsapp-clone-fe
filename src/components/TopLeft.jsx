@@ -1,25 +1,28 @@
 import React from "react"
 import { Col } from "react-bootstrap"
 
-const username = localStorage.getItem("username")
-const TopLeft = ({ setShowProfile, avatar }) => {
+const TopLeft = ({ setShowProfile, avatar, name }) => {
 
 
 
     return (
 
         <div className="stone-background top-pannel-left d-flex justify-content-between">
-            <div className="d-flex align-items-center justify-content-center" style={{ paddingLeft: "13px", paddingRight: "15px" }}>
 
-                <img
-                    onClick={() => setShowProfile(true)}
-                    className="my-3"
-                    height={45} width={45}
-                    style={{ borderRadius: "50%" }}
-                    src={avatar ? avatar : "https://cdn.vox-cdn.com/thumbor/mXo5ObKpTbHYi9YslBy6YhfedT4=/95x601:1280x1460/1200x800/filters:focal(538x858:742x1062)/cdn.vox-cdn.com/uploads/chorus_image/image/66699060/mgidarccontentnick.comc008fa9d_d.0.png"}
-                    alt="user-profile-pic"
-                />
-                <p>{username}</p>
+            <div className="d-flex align-items-center justify-content-center">
+
+                <div style={{ paddingLeft: "13px", paddingRight: "15px" }}>
+
+                    <img
+                        onClick={() => setShowProfile(true)}
+                        className="my-3"
+                        height={45} width={45}
+                        style={{ borderRadius: "50%" }}
+                        src={avatar ? avatar : "https://cdn.vox-cdn.com/thumbor/mXo5ObKpTbHYi9YslBy6YhfedT4=/95x601:1280x1460/1200x800/filters:focal(538x858:742x1062)/cdn.vox-cdn.com/uploads/chorus_image/image/66699060/mgidarccontentnick.comc008fa9d_d.0.png"}
+                        alt="user-profile-pic"
+                    />
+                </div>
+                <span>{name}</span>
             </div>
 
 

@@ -125,7 +125,7 @@ const Profile = ({ setShowProfile, show }) => {
             </div>
 
 
-            <div onClick={() => setshowDropdown(true)} style={{ position: "relative" }} className="profile-pic d-flex justify-content-center align-items-center py-5">
+            <div onClick={() => setshowDropdown(true)} style={{ position: "relative" }} className="scale-in-center profile-pic d-flex justify-content-center align-items-center py-5">
 
                 <img height={200} width={200} style={{ borderRadius: "50%" }} src={user ? user.avatar : "https://picsum.photos/seed/picsum/200/300"} alt="profile-pic" />
                 <div className="d-flex flex-column justify-content-center align-items-center overlay profile-pic" >
