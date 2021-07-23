@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import whatsapplogo from "../assets/whatsapplogo.png";
-import { Container, Form, Button, Col, Row, Image, Card } from "react-bootstrap";
+import { Container, Form, Button, Col, Row, Card } from "react-bootstrap";
+// import { Container, Form, Button, Col, Row, Image, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 const ApiUrl = process.env.REACT_APP_API_URL;

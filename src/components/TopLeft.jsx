@@ -1,6 +1,7 @@
 import React from "react";
-import { Col, Dropdown } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Dropdown } from "react-bootstrap";
+// import { Col, Dropdown } from "react-bootstrap";
+// import { Link } from "react-router-dom";
 
 
 
