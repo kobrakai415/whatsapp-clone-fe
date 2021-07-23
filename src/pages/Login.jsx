@@ -16,7 +16,7 @@ const Login = ({ routerProps }) => {
       event.preventDefault();
       event.stopPropagation();
     }
-    setValidated(true);
+   
     try {
       const details = {
         email: username,
@@ -31,6 +31,7 @@ const Login = ({ routerProps }) => {
       });
 
       if (res.ok) {
+        setValidated(true);
         const json = await res.json();
         localStorage.setItem("accessToken", json.accessToken);
         localStorage.setItem("refreshToken", json.refreshToken);
@@ -74,7 +75,6 @@ const Login = ({ routerProps }) => {
 
             <Form.Control required value={password} onChange={(e) => setPassword(e.target.value)} type="password" placeholder="Password" />
             <Form.Control.Feedback type="invalid">Please enter your password.</Form.Control.Feedback>
-            <Form.Text className="text-muted">Use 8 or more characters with a mix of letters, numbers & symbols</Form.Text>
           </Form.Group>
           <div className="d-grid gap-2 mb-4">
             <Button className="d-grid gap-2 " variant="primary" size="lg" onClick={login} disabled={username.length < 0 && password.length < 0 ? true : false} type="button">
@@ -82,7 +82,7 @@ const Login = ({ routerProps }) => {
             </Button>
           </div>
           <Row className="d-grid gap-2 justify-content-md-center mb-2">
-            <Link>
+            <Link to="/">
               <p>Forgot your password?</p>
             </Link>{" "}
           </Row>
