@@ -134,4 +134,8 @@ button.dropdown-toggle.btn-light {
   outline: none;
 }
 
-
+@media only screen and (max-width: 991px) {
+  div.box.signuplogo {
+    display: none;
+  }
+}

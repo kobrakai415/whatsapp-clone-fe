@@ -64,7 +64,7 @@ const Signup = ({ routerProps }) => {
         <Col xs={8} md={9}>
           <Form noValidate validated={validated} className="signup-container px-4 py-5">
             <Row>
-              <Col xs={8} md={7}>
+              <Col xs={12} lg={7}>
                 <h3>Create your Account</h3>
                 <p className="text-muted mb-4">It's quick and easy</p>
 
@@ -103,7 +103,7 @@ const Signup = ({ routerProps }) => {
                   </p>
                 </Row>
               </Col>
-              <Col className="box">
+              <Col className="box signuplogo">
                 <Card className="logo">
                   <Card.Img variant="top" src={whatsapplogo} alt="whatsappLogo" />
                   <Card.Body>
@@ -114,11 +114,6 @@ const Signup = ({ routerProps }) => {
             </Row>
           </Form>
         </Col>
-        {/* <form action="">
-          <label htmlFor=""></label>
-          <input type="text" />
-          <button></button>
-        </form> */}
       </Container>
     </div>
   );
