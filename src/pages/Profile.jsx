@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Col } from "react-bootstrap"
+// import { Button, Col } from "react-bootstrap"
 import { FaCheck } from "react-icons/fa"
 import { GiCancel } from "react-icons/gi"
 
@@ -131,7 +131,7 @@ const Profile = ({ setShowProfile, show }) => {
                 <div className="d-flex flex-column justify-content-center align-items-center overlay profile-pic" >
 
 
-                    <img height={50} width={50} style={{ borderRadius: "50%" }} src="https://icon-library.com/images/edit-profile-icon/edit-profile-icon-18.jpg" />
+                    <img height={50} width={50} style={{ borderRadius: "50%" }} src="https://icon-library.com/images/edit-profile-icon/edit-profile-icon-18.jpg" alt="WA"/>
                     <span className="d-flex text-white">CHANGE <br /> PROFILE PIC</span>
                 </div>
             </div>

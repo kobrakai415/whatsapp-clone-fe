@@ -1,25 +1,27 @@
 import React, { useState } from "react";
 import whatsapplogo from "../assets/whatsapplogo.png";
-import { Container, Form, Button, Col, Row, Image, Card } from "react-bootstrap";
+import { Container, Form, Button, Col, Row, Card } from "react-bootstrap";
+// import { Container, Form, Button, Col, Row, Image, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
+
 
 const ApiUrl = process.env.REACT_APP_API_URL;
 
 const Signup = ({ routerProps }) => {
-  const [name, setName] = useState("");
-  const [surname, setSurname] = useState("");
-  const [area, setArea] = useState("");
+  const [name, setName] = useState(""); // eslint-disable-line
+  const [surname, setSurname] = useState(""); // eslint-disable-line
+  // const [area, setArea] = useState("");
   const [email, setEmail] = useState("");
   const [signupPassword, setSignupPassword] = useState("");
   const [signupUsername, setSignupUsername] = useState("");
-  const [profile, setProfile] = useState("");
+  // const [profile, setProfile] = useState("");
   const [validated, setValidated] = useState(false);
-  const [isValid, setisValid] = useState(false);
+  const [isValid, setisValid] = useState(false); // eslint-disable-line
 
-  const [show, setShow] = useState(false);
+  const [show, setShow] = useState(false); // eslint-disable-line
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  // const handleClose = () => setShow(false);
+  // const handleShow = () => setShow(true);
 
   const signup = async (e) => {
     const form = e.currentTarget;
