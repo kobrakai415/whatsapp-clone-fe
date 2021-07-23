@@ -49,7 +49,7 @@ const ChatPannel = ({ chats, chatHis, selectedRoom }) => {
             }
         }
         setChatHistory(chatHis)
-    }, [chatHis]);
+    }, [chatHis, chatHistory]);
 
 
     return (
