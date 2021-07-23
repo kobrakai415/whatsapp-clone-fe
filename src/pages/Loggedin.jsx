@@ -61,7 +61,7 @@ function Home() {
         setSelectedRoom(room)
         setchatHis([])
         console.log('room:', room)
-        const response = await fetch(`${ApiUrl}/room/history/${room.title}`);
+        const response = await fetch(`${ApiUrl}/room/history/${room._id}`);
         const { chatHistory } = await response.json();
         setchatHis(chatHistory);
     }
@@ -90,14 +90,18 @@ function Home() {
         fetchUserData()
         getRooms();
         socket.on("connect", () => {
-            socket.emit("joinMyRoom", { username: username, room: username });
+            // socket.emit("joinMyRoom", { username: username, room: username });
 
-            console.log(socket.id);
+            console.log('socket.id:', socket.id)
+        });
 
+        console.log('---------------------')
+        socket.on("message", async (message) => {
+            console.log('---------------------')
+            setchatHis((chatHis) => [...chatHis, message]);
+            console.log('chatHis:', chatHis)
         });
-        socket.on("message", (message) => {
-            setchatHis((oldChatHistory) => [...oldChatHistory, message]);
-        });
+
 
 
 

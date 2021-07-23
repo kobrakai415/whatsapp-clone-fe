@@ -53,6 +53,8 @@ const Chats = ({ dataSource, setRoom, setRoomForUser }) => {
                     className='chat-list '
 
                     dataSource={dataSource}
+                    onClick={(e) => setRoom(e)}
+
                     // dataSource={[
                     //         {
                     //             avatar: 'https://picsum.photos/seed/picsum/200/300',
@@ -71,7 +73,6 @@ const Chats = ({ dataSource, setRoom, setRoomForUser }) => {
                     //             unread: 3,
                     //         },
                     //     ]}
-                    onClick={(e) => setRoom(e)}
                 />
 
                 // dataSource={[

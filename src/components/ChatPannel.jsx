@@ -14,7 +14,6 @@ const ChatPannel = ({ chats, chatHis, selectedRoom }) => {
     const [currentMessage, setCurrentMessage] = useState("");
     const [chatHistory, setChatHistory] = useState([]);
 
-    console.log('chatHis:', chatHis)
 
     const sendMessage = () => {
 
@@ -36,6 +35,7 @@ const ChatPannel = ({ chats, chatHis, selectedRoom }) => {
     };
 
     useEffect(() => {
+
         setChatHistory([])
         console.log('username:', username)
         console.log('chatHis:', chatHis)
