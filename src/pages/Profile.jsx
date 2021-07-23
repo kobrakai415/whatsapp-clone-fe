@@ -151,7 +151,7 @@ const Profile = ({ setShowProfile, show }) => {
                     {changeName && user &&
                      <>
                         <input placeholder={user.username} value={name} onChange={(e) => setname(e.target.value)}></input>
-                        <FaCheck style={{ fontSize: "25px" }} className="me-3" onClick={updateName} ></FaCheck>
+                        <FaCheck  style={{ fontSize: "20px" }}  onClick={updateName} ></FaCheck>
                     </>}
                 </div>
             </div>
@@ -168,7 +168,7 @@ const Profile = ({ setShowProfile, show }) => {
                     {changeStatus && 
                     <>
                     <input placeholder={user.status} value={status} onChange={(e) => setstatus(e.target.value)}></input>
-                    <FaCheck style={{ fontSize: "25px" }} className="me-3" onClick={updateStatus} ></FaCheck>
+                    <FaCheck style={{ fontSize: "20px" }} onClick={updateStatus} ></FaCheck>
                     </>}
    
                 </div>
