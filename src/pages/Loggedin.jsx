@@ -1,20 +1,20 @@
-import 'bootstrap/dist/css/bootstrap.min.css'
-import 'react-chat-elements/dist/main.css';
-import { useEffect, useState } from 'react';
-import { Col, Container, Row } from "react-bootstrap"
+import "bootstrap/dist/css/bootstrap.min.css";
+import "react-chat-elements/dist/main.css";
+import { useEffect, useState } from "react";
+import { Col, Container, Row } from "react-bootstrap";
 // import TopPannel from '../components/TopPannel';
-import Chats from "../components/Chats.jsx"
-import ChatPannel from "../components/ChatPannel.jsx"
-import Profile from './Profile';
-import TopRight from '../components/TopRight';
-import TopLeft from '../components/TopLeft';
+import Chats from "../components/Chats.jsx";
+import ChatPannel from "../components/ChatPannel.jsx";
+import Profile from "./Profile";
+import TopRight from "../components/TopRight";
+import TopLeft from "../components/TopLeft";
 import { io } from "socket.io-client";
 
-const ApiUrl = process.env.REACT_APP_API_URL
+const ApiUrl = process.env.REACT_APP_API_URL;
 const socket = io(ApiUrl, { transports: ["websocket"] });
 
 
-function Home() {
+function Home({ routerProps }) {
 
     const [showProfile, setShowProfile] = useState(false)
     const [user, setuser] = useState(null)
@@ -147,8 +147,7 @@ function Home() {
 
                         {!showProfile && user &&
                             <>
-                                <TopLeft name={user.username} avatar={user.avatar} setShowProfile={setShowProfile} />
-
+                                <TopLeft name={user.username} avatar={user.avatar} setShowProfile={setShowProfile} routerProps={routerProps} />
                                 <Chats chats={chats} setRoom={setRoom} setRoomForUser={setRoomForUser} dataSource={dataSource ? dataSource : []} />
                             </>
                         }
