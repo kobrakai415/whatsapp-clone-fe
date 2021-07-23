@@ -4,23 +4,69 @@ import { ChatList } from "react-chat-elements";
 
 const ApiUrl = process.env.REACT_APP_API_URL;
 
-const Chats = ({ senderId, setChatId }) => {
+const Chats = ({
+  senderId,
+  setChatId,
+  setPartnerName,
+  setPartnerAvatar,
+  setReceiverId,
+}) => {
   const [query, setQuery] = useState("");
   const [myChats, setMyChats] = useState([]);
   const [dataSource, setDataSource] = useState([]);
+  const [searchResult, setSearchResult] = useState([]);
+  const [searchSource, setSearchSource] = useState([]);
 
   useEffect(() => {
-    console.log("first useeffect running");
     fetchMyChats();
-  }, []);
+  }, [JSON.stringify(myChats)]);
 
   useEffect(() => {
     if (myChats.length !== 0) {
-      console.log(myChats);
-      console.log("second useeffect running");
       buildDataSource();
     }
-  }, [myChats]);
+  }, [JSON.stringify(myChats)]);
+
+  useEffect(() => {
+    if (query.length > 3) {
+      console.log("search is running ");
+      searchUsers();
+    }
+  }, [query]);
+
+  useEffect(() => {
+    if (searchResult.length !== 0) {
+      console.log("build is running ");
+      buildSearchSource();
+    }
+  }, [JSON.stringify(searchResult)]);
+
+  const buildSearchSource = () => {
+    let source = [];
+    searchResult.forEach((elem) => {
+      let obj = {
+        avatar: elem.avatar,
+        title: elem.userName,
+        id: elem._id,
+      };
+      source.push(obj);
+    });
+    setSearchSource(source);
+  };
+
+  const searchUsers = async () => {
+    try {
+      const response = await fetch(`${ApiUrl}/api/user/?q=${query}`);
+      if (response.ok) {
+        const data = await response.json();
+        setSearchResult(data);
+      } else {
+        throw new Error("searching failed!");
+      }
+    } catch (error) {
+      alert(error.message);
+    }
+  };
 
   const fetchMyChats = async () => {
     try {
@@ -37,7 +83,6 @@ const Chats = ({ senderId, setChatId }) => {
       if (response.ok) {
         let data = await response.json();
         setMyChats(data);
-        console.log(myChats);
       } else {
         throw new Error("fetching my chats failed!");
       }
@@ -48,6 +93,7 @@ const Chats = ({ senderId, setChatId }) => {
   };
 
   const buildDataSource = () => {
+    console.log("refreshing chat list");
     let source = [];
     myChats.forEach((elem) => {
       let partner = elem.members.filter((member) => member._id !== senderId);
@@ -61,6 +107,54 @@ const Chats = ({ senderId, setChatId }) => {
       source.push(obj);
     });
     setDataSource(source);
+  };
+
+  const isItNewChat = (id, title, avatar) => {
+    let found = false;
+    myChats.forEach((elem) => {
+      elem.members.forEach((member) => {
+        if (member._id === id) {
+          setChatId(elem._id);
+          setPartnerName(title);
+          setPartnerAvatar(avatar);
+          found = true;
+        }
+      });
+    });
+    if (found) {
+      console.log("I have prev chat with this user");
+      setQuery("");
+    } else {
+      console.log("user is newwwww");
+      setQuery("");
+      postNewChat(id, title, avatar);
+    }
+  };
+
+  const postNewChat = async (receiverId, title, avatar) => {
+    try {
+      const response = await fetch(`${ApiUrl}/api/chat`, {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          members: [senderId, receiverId],
+        }),
+      });
+      if (response.ok) {
+        const data = await response.json();
+        let newMyChats = [...myChats, data];
+        setMyChats(newMyChats);
+        setChatId(data._id);
+        setPartnerName(title);
+        setPartnerAvatar(avatar);
+      } else {
+        throw new Error("creating the new chat failed!");
+      }
+    } catch (error) {
+      alert(error.message);
+    }
   };
 
   return (
@@ -86,12 +180,21 @@ const Chats = ({ senderId, setChatId }) => {
             ></path>
           </svg>
         </div>
-        {dataSource.length !== 0 && (
+        {query.length !== 0 && (
+          <ChatList
+            className="chat-list"
+            dataSource={searchSource}
+            onClick={(e) => isItNewChat(e.id, e.title, e.avatar)}
+          />
+        )}
+        {dataSource.length !== 0 && query.length === 0 && (
           <ChatList
             className="chat-list"
             dataSource={dataSource}
             onClick={(e) => {
               setChatId(e.id);
+              setPartnerName(e.title);
+              setPartnerAvatar(e.avatar);
             }}
           />
         )}

@@ -2,8 +2,10 @@ import React from "react";
 import { Col } from "react-bootstrap";
 import { MessageList, Input, Button } from "react-chat-elements";
 import { useEffect, useState } from "react";
+import { io } from "socket.io-client";
 
 const ApiUrl = process.env.REACT_APP_API_URL;
+const socket = io("http://localhost:5000", { transports: ["websocket"] });
 
 const ChatPannel = ({ chatId, senderId }) => {
   const [messagHistory, setMessageHistory] = useState(null);
@@ -12,8 +14,20 @@ const ChatPannel = ({ chatId, senderId }) => {
   const [isNewMessage, setIsNewMessage] = useState(false);
 
   useEffect(() => {
+    socket.on("connect", () => {
+      console.log("socket id : ", socket.id);
+    });
+
+    socket.on("new message", (arg) => {
+      console.log(" new message with chat id : ", arg);
+      fetchMessages(arg);
+    });
+  }, []);
+
+  useEffect(() => {
     if (chatId) {
       fetchMessages(chatId);
+      socket.emit("new chat", chatId);
     }
   }, [chatId, isNewMessage]);
 
@@ -68,6 +82,7 @@ const ChatPannel = ({ chatId, senderId }) => {
       if (response.ok) {
         setIsNewMessage(!isNewMessage);
         setNewMessage("");
+        socket.emit("send message", chatId);
       } else {
         throw new Error("posting new message failed!");
       }
@@ -110,9 +125,7 @@ const ChatPannel = ({ chatId, senderId }) => {
               color="white"
               backgroundColor="black"
               text="Send"
-              onClick={(e) => {
-                postMessage(e);
-              }}
+              onClick={(e) => postMessage(e)}
             />
           }
         />

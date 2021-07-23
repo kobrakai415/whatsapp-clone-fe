@@ -13,8 +13,8 @@ function Loggedin() {
   const [senderId, setSenderId] = useState("");
   const [receiverId, setReceiverId] = useState("");
   const [chatId, setChatId] = useState("");
-
-  const ApiUrl = process.env.REACT_APP_API_URL;
+  const [partnerName, setPartnerName] = useState("");
+  const [partnerAvatar, setPartnerAvatar] = useState("");
 
   return (
     <>
@@ -28,10 +28,22 @@ function Loggedin() {
           }}
           className=" app-container"
         >
-          <TopPannel style={{ height: "9vh" }} senderId={senderId}></TopPannel>
+          <TopPannel
+            style={{ height: "9vh" }}
+            senderId={senderId}
+            chatId={chatId}
+            partnerName={partnerName}
+            partnerAvatar={partnerAvatar}
+          ></TopPannel>
 
           <Row style={{ height: "91vh" }}>
-            <Chats senderId={senderId} setChatId={setChatId} />
+            <Chats
+              senderId={senderId}
+              setChatId={setChatId}
+              setPartnerName={setPartnerName}
+              setPartnerAvatar={setPartnerAvatar}
+              setReceiverId={setReceiverId}
+            />
 
             <ChatPannel chatId={chatId} senderId={senderId} />
           </Row>

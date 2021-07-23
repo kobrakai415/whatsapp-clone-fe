@@ -4,16 +4,16 @@ import { useEffect, useState } from "react";
 
 const ApiUrl = process.env.REACT_APP_API_URL;
 
-const TopPannel = ({ senderId }) => {
+const TopPannel = ({ senderId, partnerName, partnerAvatar }) => {
   const [myProfile, SetMyProfile] = useState(null);
 
   useEffect(() => {
-    fetchMyProfile();
+    fetchProfile(senderId);
   }, []);
 
-  const fetchMyProfile = async () => {
+  const fetchProfile = async (id) => {
     try {
-      const response = await fetch(`${ApiUrl}/api/user/${senderId}`);
+      const response = await fetch(`${ApiUrl}/api/user/${id}`);
       if (response.ok) {
         const data = await response.json();
         SetMyProfile(data);
@@ -103,16 +103,18 @@ const TopPannel = ({ senderId }) => {
                   className="d-flex"
                   style={{ paddingLeft: "13px", paddingRight: "15px" }}
                 >
-                  <img
-                    className="my-3"
-                    height={45}
-                    width={45}
-                    style={{ borderRadius: "50%" }}
-                    src="https://cdn.vox-cdn.com/thumbor/mXo5ObKpTbHYi9YslBy6YhfedT4=/95x601:1280x1460/1200x800/filters:focal(538x858:742x1062)/cdn.vox-cdn.com/uploads/chorus_image/image/66699060/mgidarccontentnick.comc008fa9d_d.0.png"
-                    alt="user-profile-pic"
-                  />
+                  {partnerAvatar && (
+                    <img
+                      className="my-3"
+                      height={45}
+                      width={45}
+                      style={{ borderRadius: "50%" }}
+                      src={partnerAvatar}
+                      alt="user-profile-pic"
+                    />
+                  )}
                 </div>
-                <span className="p-2">tariq</span>
+                <span className="p-2">{partnerName}</span>
               </div>
               <div className="d-flex align-items-center">
                 <svg
