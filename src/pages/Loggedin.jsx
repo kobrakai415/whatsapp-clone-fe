@@ -2,13 +2,14 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "react-chat-elements/dist/main.css";
 import { useEffect, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
-// import TopPannel from '../components/TopPannel';
 import Chats from "../components/Chats.jsx";
 import ChatPannel from "../components/ChatPannel.jsx";
 import Profile from "./Profile";
 import TopRight from "../components/TopRight";
 import TopLeft from "../components/TopLeft";
 import { io } from "socket.io-client";
+import { useTransition, animated } from "react-spring"
+
 
 const ApiUrl = process.env.REACT_APP_API_URL;
 const socket = io(ApiUrl, { transports: ["websocket"] });
@@ -18,7 +19,7 @@ function Home({ routerProps }) {
 
     const [showProfile, setShowProfile] = useState(false)
     const [user, setuser] = useState(null)
-
+    const [update, setupdate] = useState(false);
     const [dataSource, setDataSource] = useState(null)
     const [selectedRoom, setSelectedRoom] = useState(null)
     const [chats, setChats] = useState(null)
@@ -28,6 +29,14 @@ function Home({ routerProps }) {
     // const token = localStorage.getItem("accessToken")
     const username = localStorage.getItem("username")
     const id = localStorage.getItem("id")
+
+    const transition = useTransition(showProfile, {
+        from: { x: -100, y: 0, opacity: 0, },
+        enter: { x: 0, y: 0, opacity: 1 },
+        leave: { x: -100, opacity: 0 },
+        delay: 100
+    })
+
 
     const setRoomForUser = async (u) => {
         console.log('u:', u)
@@ -53,6 +62,7 @@ function Home({ routerProps }) {
                 setSelectedRoom({ ...room, title: roomName[0].username })
                 // setSelectedRoom(roomName[0])
                 setchatHis(room.chatHistory);
+
             }
         }
     }
@@ -93,10 +103,11 @@ function Home({ routerProps }) {
             // socket.emit("joinMyRoom", { username: username, room: username });
 
             console.log('socket.id:', socket.id)
+            socket.emit("did-connect", {id})
         });
 
         console.log('---------------------')
-        socket.on("message", async (message) => {
+        socket.on("message", (message) => {
             console.log('---------------------')
             setchatHis((chatHis) => [...chatHis, message]);
             console.log('chatHis:', chatHis)
@@ -110,7 +121,7 @@ function Home({ routerProps }) {
             socket.disconnect();
         };
         // eslint-disable-next-line
-    }, []);
+    }, [update]);
 
 
     const fetchUserData = async () => {
@@ -148,12 +159,15 @@ function Home({ routerProps }) {
                         {!showProfile && user &&
                             <>
                                 <TopLeft name={user.username} avatar={user.avatar} setShowProfile={setShowProfile} routerProps={routerProps} />
-                                <Chats chats={chats} setRoom={setRoom} setRoomForUser={setRoomForUser} dataSource={dataSource ? dataSource : []} />
+                               {dataSource && <Chats update={update} setupdate={setupdate} setRoom={setRoom} setRoomForUser={setRoomForUser} dataSource={dataSource ? dataSource : []} />}
                             </>
                         }
 
-                        {showProfile && <Profile show={showProfile} setShowProfile={setShowProfile} />
-                        }
+                        {/* {showProfile && <Profile show={showProfile} setShowProfile={setShowProfile} />
+                        } */}
+                        {transition((style, item) =>
+                            item ? <animated.div className={`h-100 stone-background`} style={style} ><Profile show={showProfile} setShowProfile={setShowProfile} /> </animated.div> : null
+                        )}
 
                     </Col>
                     <Col md={8} className="px-0 h-100 d-flex flex-column" >

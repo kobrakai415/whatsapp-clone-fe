@@ -118,7 +118,7 @@ const Profile = ({ setShowProfile, show }) => {
 
     return (
 
-        <div className={`h-100 stone-background  ${show ? `slide-in-left` : "slide-out-left"}`}>
+        <div className={`h-100 stone-background`}>
             <div className="d-flex pt-5 pb-4 px-4 green-background">
                 <svg onClick={() => setShowProfile(false)} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="M12 4l1.4 1.4L7.8 11H20v2H7.8l5.6 5.6L12 20l-8-8 8-8z"></path></svg>
                 <strong className="ps-4">Profile</strong>
@@ -151,7 +151,7 @@ const Profile = ({ setShowProfile, show }) => {
                     {changeName && user &&
                      <>
                         <input placeholder={user.username} value={name} onChange={(e) => setname(e.target.value)}></input>
-                        <FaCheck style={{ fontSize: "25px" }} className="me-3" onClick={updateName} ></FaCheck>
+                        <FaCheck  style={{ fontSize: "20px" }}  onClick={updateName} ></FaCheck>
                     </>}
                 </div>
             </div>
@@ -168,7 +168,7 @@ const Profile = ({ setShowProfile, show }) => {
                     {changeStatus && 
                     <>
                     <input placeholder={user.status} value={status} onChange={(e) => setstatus(e.target.value)}></input>
-                    <FaCheck style={{ fontSize: "25px" }} className="me-3" onClick={updateStatus} ></FaCheck>
+                    <FaCheck style={{ fontSize: "20px" }} onClick={updateStatus} ></FaCheck>
                     </>}
    
                 </div>

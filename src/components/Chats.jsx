@@ -4,7 +4,7 @@ import { ChatList } from "react-chat-elements"
 
 const ApiUrl = process.env.REACT_APP_API_URL
 
-const Chats = ({ dataSource, setRoom, setRoomForUser }) => {
+const Chats = ({ dataSource, setRoom, setRoomForUser, update, setupdate }) => {
     const [query, setQuery] = useState("")
     const [contacts, setcontacts] = useState(null);
 
@@ -31,8 +31,8 @@ const Chats = ({ dataSource, setRoom, setRoomForUser }) => {
 
     useEffect(() => {
         fetchQuery()
-    }, [query])
-    
+    }, [query, update])
+
     return (
         <>
             <div className="search-background p-2">
@@ -55,36 +55,10 @@ const Chats = ({ dataSource, setRoom, setRoomForUser }) => {
                     dataSource={dataSource}
                     onClick={(e) => setRoom(e)}
 
-                    // dataSource={[
-                    //         {
-                    //             avatar: 'https://picsum.photos/seed/picsum/200/300',
-                    //             alt: 'Reactjs',
-                    //             title: 'Facebook',
-                    //             subtitle: 'What are yozxcvczxvzxcvzcxvu d',
-                    //             date: new Date(),
-                    //             unread: 3,
-                    //         },
-                    //         {
-                    //             avatar: 'https://picsum.photos/seed/picsum/200/300',
-                    //             alt: 'Reactjs',
-                    //             title: 'Facebook',
-                    //             subtitle: 'What are you doing?',
-                    //             date: new Date(),
-                    //             unread: 3,
-                    //         },
-                    //     ]}
+                   
                 />
 
-                // dataSource={[
-                //     {
-                //         avatar: 'https://picsum.photos/seed/picsum/200/300',
-                //         alt: 'Reactjs',
-                //         title: 'Facebook',
-                //         subtitle: 'What are you doing?',
-                //         date: new Date(),
-                //         unread: 3,
-                //     },
-                // ]} />
+                
             }
 
             {
@@ -94,7 +68,12 @@ const Chats = ({ dataSource, setRoom, setRoomForUser }) => {
                     <ChatList
                         className='chat-list'
                         dataSource={contacts}
-                        onClick={(e) => setRoomForUser(e)}
+                        onClick={(e) => {
+                            setRoomForUser(e); 
+                            setQuery(""); 
+                            setupdate(!update);}
+                            }
+
                     />
                 </>
             }
