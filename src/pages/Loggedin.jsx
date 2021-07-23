@@ -26,7 +26,8 @@ function Home({ routerProps }) {
     const [chatHis, setchatHis] = useState(null)
 
     // const token = localStorage.getItem("accessToken")
-    const username = localStorage.getItem("username")
+    // const username = localStorage.getItem("username")
+    
     const id = localStorage.getItem("id")
 
     const setRoomForUser = async (u) => {
@@ -96,7 +97,7 @@ function Home({ routerProps }) {
         });
 
         console.log('---------------------')
-        socket.on("message", async (message) => {
+        socket.on("message", (message) => {
             console.log('---------------------')
             setchatHis((chatHis) => [...chatHis, message]);
             console.log('chatHis:', chatHis)
