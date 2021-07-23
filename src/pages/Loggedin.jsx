@@ -28,7 +28,7 @@ function Home({ routerProps }) {
 
     // const token = localStorage.getItem("accessToken")
     // const username = localStorage.getItem("username")
-    
+
     const id = localStorage.getItem("id")
 
     const transition = useTransition(showProfile, {
@@ -97,31 +97,28 @@ function Home({ routerProps }) {
         setDataSource(chatsNames)
     }
 
+
     useEffect(() => {
-        fetchUserData()
-        getRooms();
-        socket.on("connect", () => {
-            // socket.emit("joinMyRoom", { username: username, room: username });
+        socket.on("connect", () => {});
+        
+        socket.emit("did-connect", { id })
 
-            console.log('socket.id:', socket.id)
-            socket.emit("did-connect", {id})
-        });
-
-        console.log('---------------------')
         socket.on("message", (message) => {
-            console.log('---------------------')
             setchatHis((chatHis) => [...chatHis, message]);
             console.log('chatHis:', chatHis)
         });
-
-
-
 
         return () => {
             console.log("Disconnected");
             socket.disconnect();
         };
         // eslint-disable-next-line
+    }, []);
+
+
+    useEffect(() => {
+        fetchUserData()
+        getRooms();
     }, [update]);
 
 
@@ -160,7 +157,7 @@ function Home({ routerProps }) {
                         {!showProfile && user &&
                             <>
                                 <TopLeft name={user.username} avatar={user.avatar} setShowProfile={setShowProfile} routerProps={routerProps} />
-                               {dataSource && <Chats update={update} setupdate={setupdate} setRoom={setRoom} setRoomForUser={setRoomForUser} dataSource={dataSource ? dataSource : []} />}
+                                {dataSource && <Chats update={update} setupdate={setupdate} setRoom={setRoom} setRoomForUser={setRoomForUser} dataSource={dataSource ? dataSource : []} />}
                             </>
                         }
 
