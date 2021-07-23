@@ -19,7 +19,7 @@ const Chats = ({ dataSource, setRoom, setRoomForUser }) => {
             })
             if (res.ok) {
                 const json = await res.json()
-                const users = json.map(item => { return { avatar: item.avatar, title: item.username, date: false } })
+                const users = json.map(item => { return { avatar: item.avatar, title: item.username, date: false, id: item._id } })
                 setcontacts(users)
             }
 
@@ -52,26 +52,27 @@ const Chats = ({ dataSource, setRoom, setRoomForUser }) => {
                     style={{ maxHeight: "100%", overflowY: "scroll", }}
                     className='chat-list '
 
-                    // dataSource={dataSource}
-                    dataSource={[
-                            {
-                                avatar: 'https://picsum.photos/seed/picsum/200/300',
-                                alt: 'Reactjs',
-                                title: 'Facebook',
-                                subtitle: 'What are yozxcvczxvzxcvzcxvu d',
-                                date: new Date(),
-                                unread: 3,
-                            },
-                            {
-                                avatar: 'https://picsum.photos/seed/picsum/200/300',
-                                alt: 'Reactjs',
-                                title: 'Facebook',
-                                subtitle: 'What are you doing?',
-                                date: new Date(),
-                                unread: 3,
-                            },
-                        ]}
-                    onClick={(e) => setRoom(e.title)}
+                    dataSource={dataSource}
+                    onClick={(e) => setRoom(e)}
+
+                    // dataSource={[
+                    //         {
+                    //             avatar: 'https://picsum.photos/seed/picsum/200/300',
+                    //             alt: 'Reactjs',
+                    //             title: 'Facebook',
+                    //             subtitle: 'What are yozxcvczxvzxcvzcxvu d',
+                    //             date: new Date(),
+                    //             unread: 3,
+                    //         },
+                    //         {
+                    //             avatar: 'https://picsum.photos/seed/picsum/200/300',
+                    //             alt: 'Reactjs',
+                    //             title: 'Facebook',
+                    //             subtitle: 'What are you doing?',
+                    //             date: new Date(),
+                    //             unread: 3,
+                    //         },
+                    //     ]}
                 />
 
                 // dataSource={[
@@ -93,7 +94,7 @@ const Chats = ({ dataSource, setRoom, setRoomForUser }) => {
                     <ChatList
                         className='chat-list'
                         dataSource={contacts}
-                        onClick={(e) => setRoomForUser(e.title)}
+                        onClick={(e) => setRoomForUser(e)}
                     />
                 </>
             }

@@ -10,38 +10,13 @@ const Login = ({ routerProps }) => {
   const [password, setPassword] = useState("");
   const [validated, setValidated] = useState(false);
 
-  const login = async (e) => {
-    const form = e.currentTarget;
+  const login = async (event) => {
+    const form = event.currentTarget;
     if (form.checkValidity() === false) {
-      e.preventDefault();
-      e.stopPropagation();
-
-      try {
-        const details = {
-          email: username,
-          password: password,
-        };
-        const res = await fetch(`${ApiUrl}/users/login`, {
-          method: "POST",
-          headers: {
-            "content-type": "application/json",
-          },
-          body: JSON.stringify(details),
-        });
-
-        if (res.ok) {
-          const json = await res.json();
-          localStorage.setItem("accessToken", json.accessToken);
-          localStorage.setItem("refreshToken", json.refreshToken);
-          localStorage.setItem("username", json.username);
-          routerProps.history.push("/user");
-        }
-      } catch (error) {
-        console.log(error);
-      }
+      event.preventDefault();
+      event.stopPropagation();
     }
-    setValidated(true);
-
+   
     try {
       const details = {
         email: username,
@@ -56,10 +31,14 @@ const Login = ({ routerProps }) => {
       });
 
       if (res.ok) {
+        setValidated(true);
         const json = await res.json();
         localStorage.setItem("accessToken", json.accessToken);
+        localStorage.setItem("refreshToken", json.refreshToken);
         localStorage.setItem("username", json.username);
         routerProps.history.push("/user");
+      } else {
+        alert("Credentials are incorrect");
       }
     } catch (error) {
       console.log(error);
@@ -96,7 +75,6 @@ const Login = ({ routerProps }) => {
 
             <Form.Control required value={password} onChange={(e) => setPassword(e.target.value)} type="password" placeholder="Password" />
             <Form.Control.Feedback type="invalid">Please enter your password.</Form.Control.Feedback>
-            <Form.Text className="text-muted">Use 8 or more characters with a mix of letters, numbers & symbols</Form.Text>
           </Form.Group>
           <div className="d-grid gap-2 mb-4">
             <Button className="d-grid gap-2 " variant="primary" size="lg" onClick={login} disabled={username.length < 0 && password.length < 0 ? true : false} type="button">
@@ -104,7 +82,7 @@ const Login = ({ routerProps }) => {
             </Button>
           </div>
           <Row className="d-grid gap-2 justify-content-md-center mb-2">
-            <Link>
+            <Link to="/">
               <p>Forgot your password?</p>
             </Link>{" "}
           </Row>

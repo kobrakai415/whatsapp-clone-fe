@@ -1,33 +1,35 @@
-import 'bootstrap/dist/css/bootstrap.min.css'
-import 'react-chat-elements/dist/main.css';
-import { useEffect, useState } from 'react';
-import { Col, Container, Row } from "react-bootstrap"
-import TopPannel from '../components/TopPannel';
-import Chats from "../components/Chats.jsx"
-import ChatPannel from "../components/ChatPannel.jsx"
-import Profile from './Profile';
-import TopRight from '../components/TopRight';
-import TopLeft from '../components/TopLeft';
+import "bootstrap/dist/css/bootstrap.min.css";
+import "react-chat-elements/dist/main.css";
+import { useEffect, useState } from "react";
+import { Col, Container, Row } from "react-bootstrap";
+// import TopPannel from '../components/TopPannel';
+import Chats from "../components/Chats.jsx";
+import ChatPannel from "../components/ChatPannel.jsx";
+import Profile from "./Profile";
+import TopRight from "../components/TopRight";
+import TopLeft from "../components/TopLeft";
 import { io } from "socket.io-client";
 import { useTransition, animated } from "react-spring"
 
 
-const ApiUrl = process.env.REACT_APP_API_URL
+const ApiUrl = process.env.REACT_APP_API_URL;
 const socket = io(ApiUrl, { transports: ["websocket"] });
 
 
-function Home() {
+function Home({ routerProps }) {
 
     const [showProfile, setShowProfile] = useState(false)
     const [user, setuser] = useState(null)
 
-    const [dataSource, setDataSource] = useState("")
-    const [selectedRoom, setSelectedRoom] = useState("")
+    const [dataSource, setDataSource] = useState(null)
+    const [selectedRoom, setSelectedRoom] = useState(null)
+    const [chats, setChats] = useState(null)
 
     const [chatHis, setchatHis] = useState(null)
 
-    const token = localStorage.getItem("accessToken")
+    // const token = localStorage.getItem("accessToken")
     const username = localStorage.getItem("username")
+    const id = localStorage.getItem("id")
 
     const transition = useTransition(showProfile, {
         from: { x: -100, y: 0, opacity: 0, },
@@ -36,26 +38,40 @@ function Home() {
         delay: 100
     })
 
-    const setRoomForUser = async (user) => {
-        console.log('user:', user)
-        const response = await fetch(`${ApiUrl}/room/user/${user}`, {
+
+    const setRoomForUser = async (u) => {
+        console.log('u:', u)
+        const response = await fetch(`${ApiUrl}/room/user/${u.id}`, {
             method: "GET",
             headers: {
                 authorization: `Bearer ${localStorage.getItem("accessToken")}`
             }
         })
-        const { chatHistory } = await response.json();
-        setSelectedRoom(user)
-        setchatHis(chatHistory);
-        console.log('selectedRoom:', selectedRoom)
+        if (response.ok) {
 
+            const room = await response.json();
+            console.log('room:', room)
+            if (room._id) {
+
+                console.log('u:', u)
+                console.log('id:', id)
+                // const test = room.members.filter(item => { if (item._id !== id) return item.username })
+                const roomName = room.members.filter(item => (item._id !== id))
+                console.log('roomName:', roomName)
+
+                setSelectedRoom(null)
+                setSelectedRoom({ ...room, title: roomName[0].username })
+                // setSelectedRoom(roomName[0])
+                setchatHis(room.chatHistory);
+            }
+        }
     }
 
     const setRoom = async (room) => {
         setSelectedRoom(room)
         setchatHis([])
-        // socket.emit("chatHistoryOfSelectedRoom", (selectedRoom))
-        const response = await fetch(`${ApiUrl}/room/history/${room}`);
+        console.log('room:', room)
+        const response = await fetch(`${ApiUrl}/room/history/${room._id}`);
         const { chatHistory } = await response.json();
         setchatHis(chatHistory);
     }
@@ -67,34 +83,43 @@ function Home() {
                 authorization: `Bearer ${localStorage.getItem("accessToken")}`
             }
         })
-        const chats = await response.json();
-        console.log('chats:', chats)
-        const data = chats.map((item) => {
-            return { ...item, onClick: setRoom }
+
+        const responseOfChats = await response.json();
+
+        setChats(responseOfChats)
+
+        const chatsNames = responseOfChats.map((item) => {
+            return { ...item, title: item.members.map(item => { if (item._id !== id) return item.username }) }
+            // return { ...item, onClick: setRoom }
         })
-        console.log('data:', data)
-        setDataSource(data)
+        console.log('chatsNames:', chatsNames)
+        setDataSource(chatsNames)
     }
 
     useEffect(() => {
-
-        getRooms()
-
+        fetchUserData()
+        getRooms();
         socket.on("connect", () => {
-            socket.emit("joinMyRoom", { username: username, room: username });
+            // socket.emit("joinMyRoom", { username: username, room: username });
 
-            console.log(socket.id);
-
+            console.log('socket.id:', socket.id)
         });
-        socket.on("message", (message) => {
-            setchatHis((oldChatHistory) => [...oldChatHistory, message]);
-          });
+
+        console.log('---------------------')
+        socket.on("message", async (message) => {
+            console.log('---------------------')
+            setchatHis((chatHis) => [...chatHis, message]);
+            console.log('chatHis:', chatHis)
+        });
+
+
 
 
         return () => {
             console.log("Disconnected");
             socket.disconnect();
         };
+        // eslint-disable-next-line
     }, []);
 
 
@@ -111,6 +136,7 @@ function Home() {
                 const json = await res.json()
                 // console.log(json)
                 setuser(json)
+                localStorage.setItem("id", user._id)
             }
 
         } catch (error) {
@@ -118,7 +144,8 @@ function Home() {
         }
     }
     useEffect(() => {
-        fetchUserData()
+        fetchUserData();
+
     }, [showProfile])
 
 
@@ -130,16 +157,15 @@ function Home() {
 
                         {!showProfile && user &&
                             <>
-                                <TopLeft name={user.username} avatar={user.avatar} setShowProfile={setShowProfile} />
-
-                                <Chats setRoom={setRoom} setRoomForUser={setRoomForUser} dataSource={dataSource ? dataSource : []} />
+                                <TopLeft name={user.username} avatar={user.avatar} setShowProfile={setShowProfile} routerProps={routerProps} />
+                                <Chats chats={chats} setRoom={setRoom} setRoomForUser={setRoomForUser} dataSource={dataSource ? dataSource : []} />
                             </>
                         }
 
                         {/* {showProfile && <Profile show={showProfile} setShowProfile={setShowProfile} />
                         } */}
                         {transition((style, item) =>
-                            item ? <animated.div className={`h-100 stone-background`} style={style} ><Profile show={showProfile} setShowProfile={setShowProfile}/> </animated.div> : null
+                            item ? <animated.div className={`h-100 stone-background`} style={style} ><Profile show={showProfile} setShowProfile={setShowProfile} /> </animated.div> : null
                         )}
 
                     </Col>
@@ -147,7 +173,7 @@ function Home() {
 
                         <TopRight selectedRoom={selectedRoom} />
 
-                        <ChatPannel chatHis={chatHis} selectedRoom={selectedRoom} />
+                        <ChatPannel chats={chats} chatHis={chatHis} selectedRoom={selectedRoom} />
 
                     </Col>
                 </Row>

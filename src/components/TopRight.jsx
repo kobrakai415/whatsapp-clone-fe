@@ -1,7 +1,7 @@
 import React from "react"
 import { Col } from "react-bootstrap"
 
-const TopRight = ({selectedRoom}) => {
+const TopRight = ({ selectedRoom }) => {
     return (
 
 
@@ -17,7 +17,7 @@ const TopRight = ({selectedRoom}) => {
                         alt="user-profile-pic"
                     />
                 </div> */}
-                <span className="p-2">{selectedRoom}</span>
+                <span className="p-2">{selectedRoom ? selectedRoom.title : ""}</span>
             </div>
             <div className="d-flex align-items-center">
                 <svg

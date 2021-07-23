@@ -64,7 +64,7 @@ const Signup = ({ routerProps }) => {
         <Col xs={8} md={9}>
           <Form noValidate validated={validated} className="signup-container px-4 py-5">
             <Row>
-              <Col xs={8} md={7}>
+              <Col xs={12} lg={7}>
                 <h3>Create your Account</h3>
                 <p className="text-muted mb-4">It's quick and easy</p>
 
@@ -84,8 +84,8 @@ const Signup = ({ routerProps }) => {
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="signupPassword">
                   <Form.Label>Password</Form.Label>
-                  <Form.Control required value={signupPassword} onChange={(e) => setSignupPassword(e.target.value)} type="password" placeholder="Enter password" />
-                  <Form.Control.Feedback type="invalid">Please enter your password.</Form.Control.Feedback>
+                  <Form.Control required minLength="8" value={signupPassword} onChange={(e) => setSignupPassword(e.target.value)} type="password" placeholder="Enter password" />
+                  <Form.Control.Feedback type="invalid">Please enter your password more than 8 characters.</Form.Control.Feedback>
 
                   <Form.Text className="text-muted">Use 8 or more characters with a mix of letters, numbers & symbols</Form.Text>
                 </Form.Group>
@@ -99,15 +99,15 @@ const Signup = ({ routerProps }) => {
                     Already have an account? Login
                     <Link to="/">
                       <span className="m-1">here</span>
-                    </Link>{" "}
+                    </Link>
                   </p>
                 </Row>
               </Col>
-              <Col className="box">
+              <Col className="box signuplogo">
                 <Card className="logo">
                   <Card.Img variant="top" src={whatsapplogo} alt="whatsappLogo" />
                   <Card.Body>
-                    <p className="text-muted mb-3  d-flex justify-content-md-center ">Simple. Secure. Reliable messaging</p>
+                    <p className="text-muted mb-3  d-flex justify-content-md-center">Simple. Secure. Reliable messaging</p>
                   </Card.Body>
                 </Card>
               </Col>

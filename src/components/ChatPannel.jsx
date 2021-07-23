@@ -8,18 +8,15 @@ import InputEmoji from "react-input-emoji";
 const ApiUrl = process.env.REACT_APP_API_URL
 const socket = io(ApiUrl, { transports: ["websocket"] });
 
-let username = 'mohammad'
-username = username ? localStorage.getItem("username") : 'mohammad'
+const username = localStorage.getItem("username")
 
-const ChatPannel = ({ chatHis, selectedRoom }) => {
+const ChatPannel = ({ chats, chatHis, selectedRoom }) => {
     const [currentMessage, setCurrentMessage] = useState("");
     const [chatHistory, setChatHistory] = useState([]);
 
-    console.log('chatHis:', chatHis)
-    console.log('selectedRoom:', selectedRoom)
 
-    const sendMessage = (   ) => {
-        
+    const sendMessage = () => {
+
         const messageToSend = {
             sender: username,
             text: currentMessage,
@@ -28,7 +25,9 @@ const ChatPannel = ({ chatHis, selectedRoom }) => {
             // position: 'right',
             // id: "60f8310325ad75631051647f",
         };
-        socket.emit("sendMessage", { message: messageToSend, room: selectedRoom });
+        console.log('selectedRoom:', selectedRoom)
+
+        socket.emit("sendMessage", { message: messageToSend, roomId: selectedRoom._id });
 
         messageToSend.position = 'right'
         setChatHistory([...chatHistory, messageToSend]);
@@ -36,6 +35,7 @@ const ChatPannel = ({ chatHis, selectedRoom }) => {
     };
 
     useEffect(() => {
+
         setChatHistory([])
         console.log('username:', username)
         console.log('chatHis:', chatHis)
@@ -75,8 +75,8 @@ const ChatPannel = ({ chatHis, selectedRoom }) => {
                     onChange={(value) => (setCurrentMessage(value))}
                     cleanOnEnter={true}
                     onEnter={sendMessage}
-                    />
-                    
+                />
+
 
             </div>
 

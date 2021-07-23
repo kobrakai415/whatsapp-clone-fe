@@ -123,3 +123,19 @@ body {
   display: flex;
   justify-content: center;
 }
+
+.dropdown-toggle::after {
+  display: none;
+}
+
+button.dropdown-toggle.btn-light {
+  padding: 0px !important;
+  margin: 0px !important;
+  outline: none;
+}
+
+@media only screen and (max-width: 991px) {
+  div.box.signuplogo {
+    display: none;
+  }
+}
