@@ -84,8 +84,8 @@ const Signup = ({ routerProps }) => {
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="signupPassword">
                   <Form.Label>Password</Form.Label>
-                  <Form.Control required value={signupPassword} onChange={(e) => setSignupPassword(e.target.value)} type="password" placeholder="Enter password" />
-                  <Form.Control.Feedback type="invalid">Please enter your password.</Form.Control.Feedback>
+                  <Form.Control required minLength="8" value={signupPassword} onChange={(e) => setSignupPassword(e.target.value)} type="password" placeholder="Enter password" />
+                  <Form.Control.Feedback type="invalid">Please enter your password more than 8 characters.</Form.Control.Feedback>
 
                   <Form.Text className="text-muted">Use 8 or more characters with a mix of letters, numbers & symbols</Form.Text>
                 </Form.Group>
@@ -99,7 +99,7 @@ const Signup = ({ routerProps }) => {
                     Already have an account? Login
                     <Link to="/">
                       <span className="m-1">here</span>
-                    </Link>{" "}
+                    </Link>
                   </p>
                 </Row>
               </Col>
@@ -107,13 +107,18 @@ const Signup = ({ routerProps }) => {
                 <Card className="logo">
                   <Card.Img variant="top" src={whatsapplogo} alt="whatsappLogo" />
                   <Card.Body>
-                    <p className="text-muted mb-3  d-flex justify-content-md-center ">Simple. Secure. Reliable messaging</p>
+                    <p className="text-muted mb-3  d-flex justify-content-md-center">Simple. Secure. Reliable messaging</p>
                   </Card.Body>
                 </Card>
               </Col>
             </Row>
           </Form>
         </Col>
+        {/* <form action="">
+          <label htmlFor=""></label>
+          <input type="text" />
+          <button></button>
+        </form> */}
       </Container>
     </div>
   );
