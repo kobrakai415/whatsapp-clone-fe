@@ -2,7 +2,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "react-chat-elements/dist/main.css";
 import { useEffect, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
-// import TopPannel from '../components/TopPannel';
 import Chats from "../components/Chats.jsx";
 import ChatPannel from "../components/ChatPannel.jsx";
 import Profile from "./Profile";
@@ -20,7 +19,7 @@ function Home({ routerProps }) {
 
     const [showProfile, setShowProfile] = useState(false)
     const [user, setuser] = useState(null)
-
+    const [update, setupdate] = useState(false);
     const [dataSource, setDataSource] = useState(null)
     const [selectedRoom, setSelectedRoom] = useState(null)
     const [chats, setChats] = useState(null)
@@ -63,6 +62,7 @@ function Home({ routerProps }) {
                 setSelectedRoom({ ...room, title: roomName[0].username })
                 // setSelectedRoom(roomName[0])
                 setchatHis(room.chatHistory);
+
             }
         }
     }
@@ -103,10 +103,11 @@ function Home({ routerProps }) {
             // socket.emit("joinMyRoom", { username: username, room: username });
 
             console.log('socket.id:', socket.id)
+            socket.emit("did-connect", {id})
         });
 
         console.log('---------------------')
-        socket.on("message", async (message) => {
+        socket.on("message", (message) => {
             console.log('---------------------')
             setchatHis((chatHis) => [...chatHis, message]);
             console.log('chatHis:', chatHis)
@@ -120,7 +121,7 @@ function Home({ routerProps }) {
             socket.disconnect();
         };
         // eslint-disable-next-line
-    }, []);
+    }, [update]);
 
 
     const fetchUserData = async () => {
@@ -158,7 +159,7 @@ function Home({ routerProps }) {
                         {!showProfile && user &&
                             <>
                                 <TopLeft name={user.username} avatar={user.avatar} setShowProfile={setShowProfile} routerProps={routerProps} />
-                                <Chats chats={chats} setRoom={setRoom} setRoomForUser={setRoomForUser} dataSource={dataSource ? dataSource : []} />
+                               {dataSource && <Chats update={update} setupdate={setupdate} setRoom={setRoom} setRoomForUser={setRoomForUser} dataSource={dataSource ? dataSource : []} />}
                             </>
                         }
 
