@@ -1,8 +1,9 @@
 import React from "react";
 import { Col } from "react-bootstrap";
-import { MessageList, Input, Button } from "react-chat-elements";
+import { MessageList } from "react-chat-elements";
 import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
+import { Form, FormControl, Button } from "react-bootstrap";
 
 const ApiUrl = process.env.REACT_APP_API_URL;
 const socket = io("http://localhost:5000", { transports: ["websocket"] });
@@ -110,13 +111,12 @@ const ChatPannel = ({ chatId, senderId }) => {
           />
         )}
       </div>
-      <div className="input-parent d-flex p-3">
+      {/* <div className="input-parent d-flex p-3">
         <Input
           className="message-input"
           placeholder="Type a message ..."
           multiline={false}
           maxlength={55000}
-          value="sdflkj"
           onChange={(e) => {
             setNewMessage(e.target.value);
           }}
@@ -129,7 +129,21 @@ const ChatPannel = ({ chatId, senderId }) => {
             />
           }
         />
-      </div>
+      </div> */}
+      <Form className="d-flex">
+        <FormControl
+          type="text"
+          placeholder="Type a message ..."
+          className="mr-2"
+          onChange={(e) => {
+            setNewMessage(e.target.value);
+          }}
+          value={newMessage}
+        />
+        <Button variant="outline-success" onClick={(e) => postMessage(e)}>
+          Send
+        </Button>
+      </Form>
     </Col>
   );
 };

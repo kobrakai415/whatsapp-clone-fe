@@ -28,7 +28,7 @@ const Chats = ({
   }, [JSON.stringify(myChats)]);
 
   useEffect(() => {
-    if (query.length > 3) {
+    if (query.length > 2) {
       console.log("search is running ");
       searchUsers();
     }
