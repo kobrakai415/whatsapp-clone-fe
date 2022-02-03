@@ -1,29 +1,28 @@
 import React, { useState, useEffect } from 'react';
-import { Col } from "react-bootstrap"
+// import { Col } from "react-bootstrap"
 import { ChatList } from "react-chat-elements"
 
 const ApiUrl = process.env.REACT_APP_API_URL
 
-const Chats = ({ dataSource, setRoom, setRoomForUser, update, setupdate }) => {
+const Chats = ({ dataSource, setRoom, setRoomForUser }) => {
     const [query, setQuery] = useState("")
     const [contacts, setcontacts] = useState(null);
 
     const fetchQuery = async () => {
         try {
-
-            const res = await fetch(`${ApiUrl}/users/search/${query}`, {
-                method: "GET",
-                headers: {
-                    authorization: `Bearer ${localStorage.getItem("accessToken")}`
+            if (query !== '') {
+                const res = await fetch(`${ApiUrl}/users/search/${query}`, {
+                    method: "GET",
+                    headers: {
+                        authorization: `Bearer ${localStorage.getItem("accessToken")}`
+                    }
+                })
+                if (res.ok) {
+                    const json = await res.json()
+                    const users = json.map(item => { return { avatar: item.avatar, title: item.username, date: false, id: item._id } })
+                    setcontacts(users)
                 }
-            })
-            if (res.ok) {
-                const json = await res.json()
-                const users = json.map(item => { return { avatar: item.avatar, title: item.username, date: false, id: item._id } })
-                setcontacts(users)
             }
-
-
         } catch (error) {
             console.log(error)
         }
@@ -31,7 +30,8 @@ const Chats = ({ dataSource, setRoom, setRoomForUser, update, setupdate }) => {
 
     useEffect(() => {
         fetchQuery()
-    }, [query, update])
+        // eslint-disable-next-line
+    }, [query])
 
     return (
         <>
@@ -51,14 +51,9 @@ const Chats = ({ dataSource, setRoom, setRoomForUser, update, setupdate }) => {
                 <ChatList
                     style={{ maxHeight: "100%", overflowY: "scroll", }}
                     className='chat-list '
-
                     dataSource={dataSource}
                     onClick={(e) => setRoom(e)}
-
-                   
                 />
-
-                
             }
 
             {
@@ -69,10 +64,10 @@ const Chats = ({ dataSource, setRoom, setRoomForUser, update, setupdate }) => {
                         className='chat-list'
                         dataSource={contacts}
                         onClick={(e) => {
-                            setRoomForUser(e); 
-                            setQuery(""); 
-                            setupdate(!update);}
-                            }
+                            setRoomForUser(e);
+                            setQuery("");
+                        }
+                        }
 
                     />
                 </>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Col } from "react-bootstrap"
-import { MessageList, Input, SystemMessage, Button } from "react-chat-elements"
+// import { Col } from "react-bootstrap"
+import { MessageList } from "react-chat-elements"
+// import { MessageList, Input, SystemMessage, Button } from "react-chat-elements"
 import { io } from "socket.io-client";
 import InputEmoji from "react-input-emoji";
 

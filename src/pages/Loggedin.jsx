@@ -19,7 +19,6 @@ function Home({ routerProps }) {
 
     const [showProfile, setShowProfile] = useState(false)
     const [user, setuser] = useState(null)
-    const [update, setupdate] = useState(false);
     const [dataSource, setDataSource] = useState(null)
     const [selectedRoom, setSelectedRoom] = useState(null)
     const [chats, setChats] = useState(null)
@@ -38,7 +37,6 @@ function Home({ routerProps }) {
         delay: 100
     })
 
-
     const setRoomForUser = async (u) => {
         console.log('u:', u)
         const response = await fetch(`${ApiUrl}/room/user/${u.id}`, {
@@ -48,22 +46,20 @@ function Home({ routerProps }) {
             }
         })
         if (response.ok) {
-
             const room = await response.json();
             console.log('room:', room)
-            if (room._id) {
 
-                console.log('u:', u)
-                console.log('id:', id)
+            socket.emit("join-room", room._id);
+
+            if (room._id) {
                 // const test = room.members.filter(item => { if (item._id !== id) return item.username })
                 const roomName = room.members.filter(item => (item._id !== id))
                 console.log('roomName:', roomName)
 
                 setSelectedRoom(null)
                 setSelectedRoom({ ...room, title: roomName[0].username })
-                // setSelectedRoom(roomName[0])
+                setchatHis([])
                 setchatHis(room.chatHistory);
-
             }
         }
     }
@@ -90,6 +86,7 @@ function Home({ routerProps }) {
         setChats(responseOfChats)
 
         const chatsNames = responseOfChats.map((item) => {
+            // eslint-disable-next-line
             return { ...item, title: item.members.map(item => { if (item._id !== id) return item.username }) }
             // return { ...item, onClick: setRoom }
         })
@@ -99,9 +96,11 @@ function Home({ routerProps }) {
 
 
     useEffect(() => {
-        socket.on("connect", () => {});
-        
-        socket.emit("did-connect", { id })
+        fetchUserData()
+        getRooms();
+        socket.on("connect", () => { });
+
+        socket.emit("did-connect", id)
 
         socket.on("message", (message) => {
             setchatHis((chatHis) => [...chatHis, message]);
@@ -110,16 +109,12 @@ function Home({ routerProps }) {
 
         return () => {
             console.log("Disconnected");
-            socket.disconnect();
+            socket.disconnect(id);
         };
         // eslint-disable-next-line
     }, []);
 
 
-    useEffect(() => {
-        fetchUserData()
-        getRooms();
-    }, [update]);
 
 
     const fetchUserData = async () => {
@@ -132,10 +127,9 @@ function Home({ routerProps }) {
             })
 
             if (res.ok) {
-                const json = await res.json()
-                // console.log(json)
-                setuser(json)
-                localStorage.setItem("id", user._id)
+                const data = await res.json()
+                setuser(data)
+                localStorage.setItem("id", data._id)
             }
 
         } catch (error) {
@@ -144,7 +138,7 @@ function Home({ routerProps }) {
     }
     useEffect(() => {
         fetchUserData();
-
+        // eslint-disable-next-line
     }, [showProfile])
 
 
@@ -157,7 +151,7 @@ function Home({ routerProps }) {
                         {!showProfile && user &&
                             <>
                                 <TopLeft name={user.username} avatar={user.avatar} setShowProfile={setShowProfile} routerProps={routerProps} />
-                                {dataSource && <Chats update={update} setupdate={setupdate} setRoom={setRoom} setRoomForUser={setRoomForUser} dataSource={dataSource ? dataSource : []} />}
+                                {dataSource && <Chats setRoom={setRoom} setRoomForUser={setRoomForUser} dataSource={dataSource ? dataSource : []} />}
                             </>
                         }
 
