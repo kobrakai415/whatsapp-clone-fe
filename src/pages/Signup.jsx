@@ -4,7 +4,6 @@ import { Container, Form, Button, Col, Row, Card } from "react-bootstrap";
 // import { Container, Form, Button, Col, Row, Image, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-
 const ApiUrl = process.env.REACT_APP_API_URL;
 
 const Signup = ({ routerProps }) => {
